@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" href="../css/iconfont.css">
+    <style>
+        html,
+        body {
+            background-color: #E7E7E7;
+        }
+
+        .header {
+            position: relative;
+            height: 18rem;
+            background-color: #177EE5;
+            /*background-image: url(../image/ad_01.png);*/
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            font-size: 1.4rem;
+        }
+
+        .topmenu {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-blox-orient: horizontal;
+            -webkit-flex-flow: row;
+            flex-flow: row;
+            transition: background-color 0.5s linear;
+            color: #fff;
+            text-align: center;
+            position: fixed;
+            top: 0px;
+            width: 100%;
+            padding-top: 25px;
+        }
+
+        .fexMenu {
+            background-color: #177EE5;
+            z-index: 999;
+        }
+
+        .topmenu .tmenu {
+            position: relative;
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+        }
+
+        .topmenu .tmenu i {
+            font-size: 3rem;
+            line-height: 6rem;
+        }
+
+        .topmenu .tmenu .tip {
+            line-height: normal;
+            position: absolute;
+            top: 5rem;
+            font-size: 1.8rem;
+            width: 100%;
+            text-align: center;
+            ;
+        }
+
+        .header-main {
+            position: absolute;
+            top: 12rem;
+            width: 100%;
+            text-align: center;
+            color: #fff;
+            z-index: 99;
+        }
+
+        .header-main .zje {
+            font-size: 4rem;
+        }
+
+        .fexMenu .tmenu .tip {
+            display: none;
+        }
+
+        .mainlist {
+            position: relative;
+        }
+
+        .mainlist .ls1 {
+            background: #fff;
+            position: relative;
+            margin-top: 1rem;
+        }
+
+        .mainlist .ls1 .lstop {
+            font-size: 1.2rem;
+            padding: 1.5rem;
+            padding-left: 3.2rem;
+            position: relative;
+            color: #A4A4A4;
+        }
+
+        .mainlist .ls1 .lstop i {
+            font-size: 2.5rem;
+            color: #F19521;
+            left: 0.5rem;
+            position: absolute;
+            top: 1.8rem;
+        }
+
+        .mainlist .ls1 .ls1-body {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-blox-orient: horizontal;
+            -webkit-flex-flow: row;
+            color: #1A1A1A;
+            flex-flow: row;
+            padding-bottom: 1.5rem;
+        }
+
+        .mainlist .ls1 .ls1-body .ls1-left {
+            text-align: center;
+            position: relative;
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+            font-size: 1.6rem;
+            line-height: 4rem;
+            color: #4C4C4C;
+        }
+
+        .mainlist .ls1 .ls1-body .ls1-right {
+            text-align: right;
+            position: relative;
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+            font-size: 1.4rem;
+            line-height: 2rem;
+            color: #4C4C4C;
+            padding-right: 1.5rem;
+        }
+
+        .mainlist .ls2 {
+            background: #fff;
+            position: relative;
+            margin-top: 1rem;
+        }
+
+        .mainlist .ls2 .lstop {
+            font-size: 1.2rem;
+            padding: 1.5rem;
+            padding-left: 3.2rem;
+            position: relative;
+            color: #A4A4A4;
+        }
+
+        .mainlist .ls2 .lstop i {
+            font-size: 2.5rem;
+            color: #52C1E0;
+            left: 0.5rem;
+            position: absolute;
+            top: 1.8rem;
+        }
+
+        .mainlist .ls2 .ls2-body {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-blox-orient: horizontal;
+            -webkit-flex-flow: row;
+            color: #1A1A1A;
+            flex-flow: row;
+            padding-bottom: 1.5rem;
+        }
+
+        .mainlist .ls2 .ls2-body .ls2-left {
+            text-align: center;
+            position: relative;
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+            color: #F19521;
+            font-size: 2.5rem;
+            line-height: 4rem;
+            height: 6rem;
+        }
+
+        .mainlist .ls2 .ls2-body .ls2-left .ls2-leftdis {
+            line-height: 1rem;
+            font-size: 1.2rem;
+            position: absolute;
+            top: 4rem;
+            width: 100%;
+            color: #4C4C4C;
+        }
+
+        .mainlist .ls2 .ls2-body .ls2-right {
+            text-align: center;
+            position: relative;
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+        }
+
+        .mainlist .ls2 .ls2-body .ls2-right {
+            padding-right: 1.5rem;
+            text-align: right;
+            font-size: 1.2rem;
+            color: #4C4C4C;
+        }
+
+        .mainlist .ls2 .ls2-body .ls2-right .ls2-right-btn {
+            background-color: #177EE5;
+            color: #fff;
+            border-radius: .3rem;
+            display: inline-block;
+            padding: .5rem 1.5rem;
+        }
+
+        .mainlist .ls2 .ls2footer {
+            background-color: #f9f9f9;
+            text-align: center;
+            font-size: 1.2rem;
+            color: #A4A4A4;
+            padding: .5rem;
+        }
+
+        .mainlist .ls3 {
+            position: relative;
+            margin-top: 1rem;
+            background-image: url(../image/test1.jpg);
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 15rem;
+        }
+
+        .mainlist .ls4 {
+            background: #fff;
+            position: relative;
+            margin-top: 1rem;
+        }
+
+        .mainlist .ls4 .lstop {
+            font-size: 1.2rem;
+            padding: 1.5rem;
+            padding-left: 3.2rem;
+            position: relative;
+            color: #A4A4A4;
+        }
+
+        .mainlist .ls4 .lstop i {
+            font-size: 2.5rem;
+            color: #96DEAB;
+            left: 0.5rem;
+            position: absolute;
+            top: 1.8rem;
+        }
+
+        .mainlist .ls4 .ls4-body {
+            padding-bottom: 1.5rem;
+            color: #1A1A1A;
+            padding: 0 3rem 1.5rem;
+        }
+
+        .mainlist .ls4 .ls4-body .ls4-body-main {
+            font-size: 2rem;
+            line-height: 4rem;
+        }
+
+        .mainlist .ls4 .ls4-body .ls4-body-dis {
+            font-size: 1.2rem;
+            color: #4c4c4c;
+        }
+
+        .mainlist .ls5 {
+            background: #fff;
+            position: relative;
+            margin-top: 1rem;
+        }
+
+        .mainlist .ls5 .lstop {
+            font-size: 1.2rem;
+            padding: 1.5rem;
+            padding-left: 3.2rem;
+            position: relative;
+            color: #A4A4A4;
+        }
+
+        .mainlist .ls5 .lstop i {
+            font-size: 2.5rem;
+            color: #FF6666;
+            left: 0.5rem;
+            position: absolute;
+            top: 1.8rem;
+        }
+
+        .mainlist .ls5 .ls5-body {
+            padding-bottom: 1.5rem;
+            color: #1A1A1A;
+            padding: 0 3rem 1.5rem;
+        }
+
+        .mainlist .ls5 .ls5-body .ls5-body-main {
+            font-size: 2rem;
+            line-height: 4rem;
+        }
+
+        .mainlist .ls5 .ls5-body .ls5-body-dis {
+            font-size: 1.2rem;
+            color: #4c4c4c;
+        }
+
+        .hgje {
+            background-color: #fff;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-blox-orient: horizontal;
+            -webkit-flex-flow: row;
+            flex-flow: row;
+        }
+
+        .hgje .hgjeitem {
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .hgje .hgjeitem .hgjenum {
+            font-size: 1.8rem;
+            color: #177EE5;
+        }
+
+        .hgje .hgjeitem .hgjedis {
+            color: #4C4C4C;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header" id="header">
+        <div class="topmenu" id="topmenu">
+            <div class="tmenu">
+                <div><i class="iconfont icon-saoyisaojianjiban"></i></div>
+                <div class="tip">扫一扫</div>
+            </div>
+            <div class="tmenu">
+                <div><i class="iconfont icon-fukuan"></i></div>
+                <div class="tip">付 款</div>
+            </div>
+            <div class="tmenu">
+                <div><i class="iconfont icon-cunzhezhuanzhang"></i> </div>
+                <div class="tip">转 存</div>
+            </div>
+            <div class="tmenu">
+                <div><i class="iconfont icon-tixian"></i></div>
+                <div class="tip">提 现</div>
+            </div>
+        </div>
+        <div class="header-main">
+            <div class="zje">￥82,360,897.00</div>
+        </div>
+    </div>
+    <div class="hgje">
+        <div class="hgjeitem">
+            <div class="hgjenum">2,007</div>
+            <div class="hgjedis">活期金额（单位元）</div>
+        </div>
+        <div class="hgjeitem">
+            <div class="hgjenum">300.00</div>
+            <div class="hgjedis">转存金额（单位元）</div>
+        </div>
+    </div>
+    <div class="mainlist">
+        <div class="ls2">
+            <div class="lstop">
+                <i class="iconfont icon-product-mgr"></i>
+                <div>
+                    <div>转存产品</div>
+                    <div class="lstime">07-01 11:23</div>
+                </div>
+            </div>
+            <div class="ls2-body">
+                <div class="ls2-left">
+                    2.35%
+                    <div class="ls2-leftdis">年化收益</div>
+                </div>
+                <div class="ls2-right">
+                    <div>招招盈</div>
+                    <div>期限2个月</div>
+                    <div class="ls2-right-btn">马上转存</div>
+                </div>
+            </div>
+            <div class="ls2footer">
+                查看更多
+            </div>
+        </div>
+        <div class="ls1">
+            <div class="lstop">
+                <i class="iconfont icon-shouqian"></i>
+                <div>
+                    <div>收益记录</div>
+                    <div class="lstime">07-01 11:23</div>
+                </div>
+            </div>
+            <div class="ls1-body">
+                <div class="ls1-left">本月收益 <span style="font-size:2rem;">￥200</span></div>
+                <div class="ls1-right">
+                    <div>总金额：10,234.00</div>
+                    <div>累计收益：435.23</div>
+                </div>
+            </div>
+        </div>
+        <div class="ls3">
+        </div>
+        <div class="ls4">
+            <div class="lstop">
+                <i class="iconfont icon-gongzi"></i>
+                <div>
+                    <div>工资发放</div>
+                    <div class="lstime">07-01 11:23</div>
+                </div>
+            </div>
+            <div class="ls4-body">
+                <div class="ls4-body-main">+8,345.34</div>
+                <div class="ls4-body-dis">工资收入</div>
+            </div>
+        </div>
+        <div class="ls5">
+            <div class="lstop">
+                <i class="iconfont icon-71"></i>
+                <div>
+                    <div>转账记录</div>
+                    <div class="lstime">07-01 11:23</div>
+                </div>
+            </div>
+            <div class="ls5-body">
+                <div class="ls5-body-main">-300</div>
+                <div class="ls5-body-dis">转账支出</div>
+            </div>
+        </div>
+        <div class="ls1">
+            <div class="lstop">
+                <i class="iconfont icon-shouqian"></i>
+                <div>
+                    <div>收益记录</div>
+                    <div class="lstime">07-01 11:23</div>
+                </div>
+            </div>
+            <div class="ls1-body">
+                <div class="ls1-left">本月收益 <span style="font-size:2rem;">￥2026</span></div>
+                <div class="ls1-right">
+                    <div>总金额：10,234.00</div>
+                    <div>累计收益：435.23</div>
+                </div>
+            </div>
+        </div>
+        <div class="ls1">
+            <div class="lstop">
+                <i class="iconfont icon-shouqian"></i>
+                <div>
+                    <div>收益记录</div>
+                    <div class="lstime">07-01 11:23</div>
+                </div>
+            </div>
+            <div class="ls1-body">
+                <div class="ls1-left">本月收益 <span style="font-size:2rem;">￥200</span></div>
+                <div class="ls1-right">
+                    <div>总金额：10,234.00</div>
+                    <div>累计收益：435.23</div>
+                </div>
+            </div>
+        </div>
+        <div class="ls1">
+            <div class="lstop">
+                <i class="iconfont icon-shouqian"></i>
+                <div>
+                    <div>收益记录</div>
+                    <div class="lstime">07-01 11:23</div>
+                </div>
+            </div>
+            <div class="ls1-body">
+                <div class="ls1-left">本月收益 <span style="font-size:2rem;">￥200</span></div>
+                <div class="ls1-right">
+                    <div>总金额：10,234.00</div>
+                    <div>累计收益：435.23</div>
+                </div>
+            </div>
+        </div>
+        <div class="ls1">
+            <div class="lstop">
+                <i class="iconfont icon-shouqian"></i>
+                <div>
+                    <div>收益记录</div>
+                    <div class="lstime">07-01 11:23</div>
+                </div>
+            </div>
+            <div class="ls1-body">
+                <div class="ls1-left">本月收益 <span style="font-size:2rem;">￥200</span></div>
+                <div class="ls1-right">
+                    <div>总金额：10,234.00</div>
+                    <div>累计收益：435.23</div>
+                </div>
+            </div>
+        </div>
+        <div class="ls1">
+            <div class="lstop">
+                <i class="iconfont icon-shouqian"></i>
+                <div>
+                    <div>收益记录</div>
+                    <div class="lstime">07-01 11:23</div>
+                </div>
+            </div>
+            <div class="ls1-body">
+                <div class="ls1-left">本月收益 <span style="font-size:2rem;">￥200</span></div>
+                <div class="ls1-right">
+                    <div>总金额：10,234.00</div>
+                    <div>累计收益：435.23</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/iconfont.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        var header = document.querySelector('#header');
+        $api.fixStatusBar(header);
+        window.onscroll = function() {
+            var top = document.documentElement.scrollTop || document.body.scrollTop;
+            var topmenu = $api.byId('topmenu');
+            if (top != 0) {
+                $api.addCls(topmenu, 'fexMenu');
+            } else {
+                $api.removeCls(topmenu, 'fexMenu');
+            }
+        };
+    };
+</script>
+
+</html>
