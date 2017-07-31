@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        html,
+        body {
+            background-color: #E7E7E7;
+        }
+
+        header {
+            background-color: #177EE5;
+            height: 4.6rem;
+            /*overflow: hidden;*/
+        }
+
+        .headerfax {
+            position: relative;
+            padding: 1rem 1.5rem;
+            font-size: 1.6rem;
+            color: #fff;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-blox-orient: horizontal;
+            -webkit-flex-flow: row;
+            flex-flow: row;
+        }
+
+        .headerfax .hf-left {
+            position: relative;
+            text-align: left;
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+        }
+
+        .headerfax .hf-right {
+            position: relative;
+            text-align: right;
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="header">
+        <div class="headerfax">
+            <div class="hf-left">我的</div>
+            <div class="hf-right">设置</div>
+        </div>
+    </header>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        var header = document.querySelector('#header');
+        $api.fixStatusBar(header);
+        fnOpenProfileFrame();
+        api.addEventListener({
+            name: 'mainMenuChanged'
+        }, function(ret, err) {
+            if (ret) {
+                if (ret.value.nowIndex == 2) {
+                    fnOpenProfileFrame();
+                }
+            }
+        });
+
+    };
+
+    function fnOpenProfileFrame() {
+        var header = $api.byId("header");
+        var offset = $api.offset(header);
+        api.openFrame({
+            name: 'profileFrame',
+            url: './profileFrame.html',
+            rect: {
+                x: 0,
+                y: offset.h,
+                w: 'auto',
+                h: api.winHeight - 55 - offset.h
+            },
+            pageParam: {
+                name: 'test'
+            },
+            bounces: true,
+            bgColor: '#E7E7E7',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true,
+            animation: {
+                type: "push",
+                subType: "from_right",
+                duration: 300
+            }
+        });
+
+    }
+</script>
+
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        html,
+        body {
+            background: #fff;
+        }
+
+        .login-area {
+            margin: 0 15px;
+            margin-top: 6rem;
+        }
+
+        .headImg {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .headImg .img {
+            width: 10rem;
+            height: 10rem;
+            margin: 0 auto;
+            background-image: url(../image/100.png);
+            background-size: cover;
+            background-position: center;
+            border-radius: .5rem;
+        }
+
+        .login-area .lainput {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-blox-orient: horizontal;
+            -webkit-flex-flow: row;
+            flex-flow: row;
+            border-bottom: 1px solid #E5E5E5;
+            margin-bottom: 1.5rem;
+            font-size: 1.6rem;
+            line-height: 4.8rem;
+        }
+
+        .login-area .lainput .laTit {
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+        }
+
+        .login-area .lainput .laInp {
+            -webkit-box-flex: 3;
+            -webkit-flex: 3;
+            flex: 3;
+        }
+
+        .login-area .lainput .laInp input {
+            width: 100%;
+            font-size: 1.8rem;
+            line-height: 4.8rem;
+            border: 0;
+            outline: none;
+        }
+
+        .login-area .lainput .laIco {
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+        }
+
+        .login-area .fmbtn {
+            color: #fff;
+            background-color: #177EE5;
+            border-radius: .5rem;
+            text-align: center;
+            font-size: 1.8rem;
+            line-height: 4.8rem;
+        }
+
+        .btnarea {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-blox-orient: horizontal;
+            -webkit-flex-flow: row;
+            flex-flow: row;
+            margin-top: 1rem;
+        }
+
+        .btnarea div {
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+            font-size: 1.6rem;
+            color: #177EE5;
+        }
+
+        .btnarea div:last-child {
+            text-align: right;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-area" id="loginarea">
+        <div class="headImg" id="headImg">
+            <div class="img"></div>
+        </div>
+        <div class="lainput">
+            <div class="laTit">账号</div>
+            <div class="laInp"><input type="text" tapmode onfocus="fnDoInputting(this)" tapmode onblur="fnUnInputting(this)" placeholder='请输入手机号' id='mobile' /></div>
+            <div class="laIco"></div>
+        </div>
+        <div class="lainput">
+            <div class="laTit">密码</div>
+            <div class="laInp"><input type="password" tapmode onfocus="fnDoInputting(this)" tapmode onblur="fnUnInputting(this)" placeholder='请输入密码' id='pwd' /></div>
+            <div class="laIco"></div>
+        </div>
+        <div class="fmbtn" tapmode onclick="fnLogin()">登录</div>
+        <div class="btnarea">
+            <div tapmode onclick="fnOpenSmsLoginwin()">短信登录</div>
+            <div tapmode onclick="fnOpenFindPwd()">忘记密码</div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/config.js"></script>
+<script type="text/javascript">
+    var maxHeight;
+    var closeflg = 0;
+    apiready = function() {
+        var header = document.querySelector('#loginarea');
+        $api.fixStatusBar(header);
+        maxHeight = document.body.scrollHeight;
+        window.addEventListener("resize", fnWinResize);
+        api.addEventListener({
+            name: 'keyback'
+        }, function(ret, err) {
+            if (closeflg == 0) {
+                closeflg = 1;
+                api.toast({
+                    msg: '再按一次退出应用',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+                setTimeout(function() {
+                    closeflg = 0;
+                }, 1000);
+            } else {
+                api.closeWidget({
+                    silent: true
+                });
+            }
+        });
+    };
+
+    function fnDoInputting(el) {
+        el.parentNode.parentNode.style.borderBottomColor = "#177EE5";
+    }
+
+    function fnUnInputting(el) {
+        el.parentNode.parentNode.style.borderBottomColor = "#E5E5E5";
+    }
+
+    function fnWinResize() {
+        var headImg = $api.byId('headImg');
+        if (maxHeight == document.body.scrollHeight) {
+            headImg.style.display = "block";
+        } else {
+            headImg.style.display = "none";
+        }
+    }
+
+    function fnLogin() {
+        var mobile = $api.byId('mobile');
+        var pwd = $api.byId('pwd');
+        var mobileVar = $api.val(mobile);
+        var pwdVar = $api.val(pwd);
+        if (mobileVar && pwdVar && mobileVar != '' && pwdVar != '') {
+            if ((/^1[34578]\d{9}$/.test(mobileVar))) {
+                api.ajax({
+                    url: VAR_HOST + '/API/Basics/Login',
+                    method: 'post',
+                    data: {
+                        values: {
+                            mobile: mobileVar,
+                            pwd: pwdVar
+                        }
+                    }
+                }, function(ret, err) {
+                    if (ret) {
+                        if (ret.status == 0) {
+                            $api.setStorage('accessToken', ret.accessToken);
+                            $api.setStorage('staff', ret.staff);
+                            api.openWin({
+                                name: 'main',
+                                url: './main.html',
+                            });
+                            api.toast({
+                                msg: '登录成功',
+                                duration: 2000,
+                                location: 'bottom'
+                            });
+                            setTimeout(function(){
+                              api.closeWin();
+                            },1000);
+                        } else {
+                            api.toast({
+                                msg: ret.msg,
+                                duration: 2000,
+                                location: 'bottom'
+                            });
+
+                        }
+                    } else {
+                        api.toast({
+                            msg: JSON.stringify(err),
+                            duration: 2000,
+                            location: 'bottom'
+                        });
+                    }
+                });
+            } else {
+                api.toast({
+                    msg: '手机号码格式不正确',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+
+            }
+        } else {
+            api.toast({
+                msg: '账号或密码不能为空',
+                duration: 2000,
+                location: 'bottom'
+            });
+
+        }
+    }
+
+    function fnOpenSmsLoginwin() {
+        api.openWin({
+            name: 'smslogin',
+            url: './smsLogin.html',
+
+        });
+    }
+
+    function fnOpenFindPwd() {
+        api.openWin({
+            name: 'findPwd',
+            url: './findPwd.html'
+        });
+
+    }
+</script>
+
+</html>

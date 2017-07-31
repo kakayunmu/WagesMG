@@ -8,6 +8,7 @@
     <title>Hello APP</title>
     <link rel="stylesheet" type="text/css" href="./css/api.css" />
     <style type="text/css">
+
     </style>
 </head>
 
@@ -15,15 +16,51 @@
 
 </body>
 <script type="text/javascript" src="./script/api.js"></script>
+<script type="text/javascript" src="./script/config.js"></script>
 <script type="text/javascript">
     apiready = function() {
-      api.openWin({
-          name: 'main',
-          url: 'html/main.html',
-          pageParam: {
-          }
-      });
+    //   $api.rmStorage('staff');
 
+        var staff = $api.getStorage('staff');
+        if (staff != null) {
+            api.ajax({
+                url: VAR_HOST + '/API/Basics/RefAccessToken', //刷新token
+                method: 'post',
+                data: {
+                    values: {
+                        refToken: staff.refToken
+                    }
+                }
+            }, function(ret, err) {
+                if (ret) {
+                    if (ret.status == 0) {
+                        $api.setStorage('accessToken', ret.accessToken);
+                        $api.setStorage('staff', ret.staff);
+                        api.openWin({
+                            name: 'main',
+                            url: 'html/main.html'
+                        });
+                    } else {
+                        api.openWin({
+                            name: 'login',
+                            url: 'html/login.html'
+                        });
+                    }
+                } else {
+                    api.openWin({
+                        name: 'login',
+                        url: 'html/login.html'
+                    });
+                }
+            });
+
+        } else {
+
+            api.openWin({
+                name: 'login',
+                url: 'html/login.html'
+            });
+        }
     };
 </script>
 

@@ -347,7 +347,7 @@
 <body>
     <div class="header" id="header">
         <div class="topmenu" id="topmenu">
-            <div class="tmenu">
+            <div class="tmenu" tapmod onclick="fnScan();">
                 <div><i class="iconfont icon-saoyisaojianjiban"></i></div>
                 <div class="tip">扫一扫</div>
             </div>
@@ -365,7 +365,7 @@
             </div>
         </div>
         <div class="header-main">
-            <div class="zje">￥82,360,897.00</div>
+            <div class="zje">￥82,897.00</div>
         </div>
     </div>
     <div class="hgje">
@@ -543,6 +543,43 @@
                 $api.removeCls(topmenu, 'fexMenu');
             }
         };
+    };
+
+    function fnScan() {
+      api.openFrame({
+          name: 'scanFrame',
+          url: './scanFrame.html',
+          rect: {
+              x: 0,
+              y: 0,
+              w: 'auto',
+              h: 'auto'
+          },
+          pageParam: {
+              name: 'test'
+          },
+          bounces: true,
+          bgColor: 'rgba(0,0,0,0.5)',
+          vScrollBarEnabled: false,
+          hScrollBarEnabled: false
+      });
+
+        var scanner = api.require('scanner');
+        scanner.openView({
+            x: 0,
+            y: 0,
+            w: 'auto',
+            h: 'auto',
+            sound: "widget://res/scan.wav",
+            fixedOn:'scanFrame'
+        }, function(ret, err) {
+            if (ret) {
+                alert(JSON.stringify(ret));
+            } else {
+                alert(JSON.stringify(err));
+            }
+        });
+
     };
 </script>
 

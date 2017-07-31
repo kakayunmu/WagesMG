@@ -17,9 +17,11 @@
 </body>
 <script type="text/javascript" src="../script/api.js"></script>
 <script type="text/javascript">
+  var closeflg = 0;
     apiready = function() {
         fnOpenMainFrame();
         fnMainMenu();
+        fnCloseWidget();
     }
 
     function fnOpenMainFrame() {
@@ -35,10 +37,40 @@
             bounces: false,
             bgColor: '#fff',
             vScrollBarEnabled: false,
-            hScrollBarEnabled: false
+            hScrollBarEnabled: false,
+            animation: {
+                type: "push",
+                subType: "from_right",
+                duration: 300
+            }
         });
 
-    }
+    };
+
+    function fnOpenProfileFrame() {
+        api.openFrame({
+            name: 'profile',
+            url: './profile.html',
+            rect: {
+                x: 0,
+                y: 0,
+                w: 'auto',
+                h: api.winHeight - 55
+            },
+            bounces: false,
+            bgColor: '#fff',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: false,
+            animation: {
+                type: "push",
+                subType: "from_right",
+                duration: 300
+            }
+        });
+
+    };
+
+    var preSelectIndex = 0;
 
     function fnMainMenu() {
         var NVTabBar = api.require("NVTabBar");
@@ -128,17 +160,48 @@
         }, function(ret, err) {
             if (ret) {
                 if (ret.eventType == "click") {
-                    if (ret.index == 0) {
-                        fnOpenMainFrame();
-                    } else if (ret.index == 1) {
+                    if (preSelectIndex != ret.index) {
+                        api.sendEvent({
+                            name: 'mainMenuChanged',
+                            extra: {
+                                preIndex: preSelectIndex,
+                                nowIndex: ret.index
+                            }
+                        });
+                        if (ret.index == 0) {
+                            fnOpenMainFrame();
+                        } else if (ret.index == 1) {
 
-                    }else if(ret.index==2){
-                      
-                    }
+                        } else if (ret.index == 2) {
+                            fnOpenProfileFrame();
+                        }
+                    };
+                    preSelectIndex = ret.index;
                 }
             }
         });
+    }
 
+    function fnCloseWidget(){
+      api.addEventListener({
+          name: 'keyback'
+      }, function(ret, err) {
+          if (closeflg == 0) {
+              closeflg = 1;
+              api.toast({
+                  msg: '再按一次退出应用',
+                  duration: 2000,
+                  location: 'bottom'
+              });
+              setTimeout(function() {
+                  closeflg = 0;
+              }, 1000);
+          } else {
+              api.closeWidget({
+                  silent: true
+              });
+          }
+      });
     }
 </script>
 

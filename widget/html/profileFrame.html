@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" href="../css/iconfont.css">
+    <style>
+        html,
+        body {
+            background-color: #E7E7E7;
+        }
+
+        .zlarea {
+            position: relative;
+            background-color: #177EE5;
+            height: 10rem;
+            padding: 1rem 1.5rem;
+            overflow: hidden;
+        }
+
+        .zlarea .himg {
+            float: left;
+            height: 8rem;
+            width: 8rem;
+            overflow: hidden;
+            border: 0.2rem solid #62ACE4;
+            border-radius: .3rem;
+        }
+
+        .zlarea .himg img {
+            width: 100%;
+        }
+
+        .zlarea .names {
+            margin-left: 9.5rem;
+            margin-right: 3rem;
+            color: #fff;
+            font-size: 1.8rem;
+            padding-top: 1.5rem;
+        }
+
+        .zlarea .morebtn {
+            position: absolute;
+            top: 3.5rem;
+            right: 1.5rem;
+            color: #fff;
+        }
+
+        .zlarea .morebtn i {
+            font-size: 2rem;
+        }
+
+        .lsmenus {
+            background-color: #fff;
+            border-top: 1px solid #E5E5E5;
+            margin-bottom: 1rem;
+        }
+        .lsmenus:last-child{
+          margin-bottom: 0px;
+        }
+
+        .lsmenus li {
+            padding: 0 1.5rem;
+            position: relative;
+            border-bottom: 1px solid #E5E5E5;
+        }
+
+        .lsmenus li::before {
+            font-family: "iconfont" !important;
+            font-size: 2rem;
+            font-style: normal;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            position: absolute;
+            content: "\e601";
+            top: 50%;
+            margin-top: -1rem;
+            right: 1.5rem;
+            color: #A4A4A4;
+        }
+
+        .lsmenus li div {
+            display: inline-block;
+            line-height: 3rem;
+            line-height: 4rem;
+        }
+
+        .lsmenus li .lmico i {
+            font-size: 2rem;
+        }
+
+        .lsmenus li .lmcontent {
+            padding-left: 1rem;
+            color: #1A1A1A;
+            font-size: 1.6rem;
+            width: 9rem;
+        }
+
+        .lsmenus li .lmdis {
+            padding-left: 1rem;
+            text-align: right;
+            font-size: 1.4rem;
+            color: #A4A4A4;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="zlarea">
+        <div class="himg">
+            <img src="../image/100.png" alt="">
+        </div>
+        <div class="names">
+            <div>樱桃小丸子</div>
+            <div style="font-size:1.2rem;font-size:1.6rem;">13863748893</div>
+        </div>
+        <div class="morebtn">
+            <i class="iconfont icon-gengduo"></i>
+        </div>
+    </div>
+    <ul class="lsmenus">
+        <li>
+            <div class="lmico"><i class="iconfont icon-dingcunbao" style="color:#008FE3;"></i></div>
+            <div class="lmcontent">定存记录</div>
+            <div class="lmdis">我的定期存款</div>
+        </li>
+    </ul>
+    <ul class="lsmenus">
+        <li>
+            <div class="lmico"><i class="iconfont icon-gongzi" style="color:#F25948;"></i></div>
+            <div class="lmcontent">工资记录</div>
+            <div class="lmdis"></div>
+        </li>
+        <li>
+            <div class="lmico"><i class="iconfont icon-tixian" style="color:#FCB513;"></i></div>
+            <div class="lmcontent">提现记录</div>
+            <div class="lmdis">本月提现明细</div>
+        </li>
+        <li>
+            <div class="lmico"><i class="iconfont icon-xiaofei" style="color:#F85854;"></i></div>
+            <div class="lmcontent">消费记录</div>
+            <div class="lmdis">最近3个月消费信息</div>
+        </li>
+        <li>
+            <div class="lmico"><i class="iconfont icon-71" style="color:#FCB513;"></i></div>
+            <div class="lmcontent">转账记录</div>
+            <div class="lmdis">本月提现明细</div>
+        </li>
+    </ul>
+    <ul class="lsmenus">
+        <li>
+            <div class="lmico"><i class="iconfont icon-jiaoyimima" style="color:#048BDD;"></i></div>
+            <div class="lmcontent">安全中心</div>
+            <div class="lmdis"></div>
+        </li>
+        <li>
+            <div class="lmico"><i class="iconfont icon-huancun" style="color:#FCB513;"></i></div>
+            <div class="lmcontent">清除缓存</div>
+            <div class="lmdis"></div>
+        </li>
+    </ul>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/iconfont.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+      api.setCustomRefreshHeaderInfo({
+          bgColor: '#177EE5',
+          isScale: true,
+          image: {
+              pull: [
+                  'widget://image/refresh/dropdown0.png'
+              ],
+              load: [
+                  'widget://image/refresh/loading0.png'
+              ]
+          }
+      }, function() {
+        api.refreshHeaderLoadDone();
+      });
+    };
+</script>
+
+</html>
