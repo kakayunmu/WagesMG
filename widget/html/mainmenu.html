@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        body {}
+    </style>
+</head>
+
+<body>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript">
+    var closeflg = 0;
+    apiready = function() {
+        fnMainMenu();
+        fnOpenMain();
+        fnCloseWidget();
+    };
+
+    var preSelectIndex = 0;
+
+    var NVTabBar;
+
+    function fnMainMenu() {
+        NVTabBar = api.require("NVTabBar");
+        NVTabBar.open({
+            styles: {
+                bg: '#F6F6F6',
+                h: 55,
+                dividingLine: {
+                    width: 0.5,
+                    color: '#E5E5E5'
+                },
+                badge: {
+                    bgColor: '#ff0',
+                    numColor: '#fff',
+                    size: 6.0,
+                    fontSize: 10 //数字类型,设置徽章字体大小,默认10。注意:仅支持iOS。
+                }
+            },
+            items: [{
+                w: api.winWidth / 3.0,
+                bg: {
+                    marginB: 0,
+                    image: 'rgba(0,0,0,0)'
+                },
+                iconRect: {
+                    w: 25.0,
+                    h: 25.0,
+                },
+                icon: {
+                    normal: 'widget://image/ico_home.png',
+                    highlight: 'widget://image/ico_home_selected.png',
+                    selected: 'widget://image/ico_home_selected2.png'
+                },
+                title: {
+                    text: '首页',
+                    size: 12.0,
+                    normal: '#808080',
+                    selected: '#177EE5',
+                    marginB: 6.0
+                }
+            }, {
+                w: api.winWidth / 3.0,
+                bg: {
+                    marginB: 0,
+                    image: 'rgba(0,0,0,0)'
+                },
+                iconRect: {
+                    w: 25.0,
+                    h: 25.0,
+                },
+                icon: {
+                    normal: 'widget://image/ico_shenghuo.png',
+                    highlight: 'widget://image/ico_shenghuo_selected.png',
+                    selected: 'widget://image/ico_shenghuo_selected2.png'
+                },
+                title: {
+                    text: '转存产品',
+                    size: 12.0,
+                    normal: '#808080',
+                    selected: '#177EE5',
+                    marginB: 6.0
+                }
+            }, {
+                w: api.winWidth / 3.0,
+                bg: {
+                    marginB: 0,
+                    image: 'rgba(0,0,0,0)'
+                },
+                iconRect: {
+                    w: 25.0,
+                    h: 25.0,
+                },
+                icon: {
+                    normal: 'widget://image/ico_my.png',
+                    highlight: 'widget://image/ico_my_selected.png',
+                    selected: 'widget://image/ico_my_selected2.png'
+                },
+                title: {
+                    text: '我的',
+                    size: 12.0,
+                    normal: '#808080',
+                    selected: '#177EE5',
+                    marginB: 6.0
+                }
+            }],
+            selectedIndex: 0
+        }, function(ret, err) {
+            if (ret) {
+                if (ret.eventType == "click") {
+                    if (ret.index != preSelectIndex) {
+                        api.sendEvent({
+                            name: 'mainMenuChanged',
+                            extra: {
+                                preIndex: preSelectIndex,
+                                nowIndex: ret.index
+                            }
+                        });
+                        if (ret.index == 0) {
+                            fnOpenMain();
+                        } else if (ret.index == 1) {
+                            fnOpenProducts();
+                        } else if (ret.index == 2) {
+                            fnOpenProfile();
+                        }
+                    }
+                    preSelectIndex = ret.index;
+                }
+            }
+        });
+    }
+
+    function fnOpenMain() {
+        api.openFrame({
+            name: 'main',
+            url: './main.html',
+            rect: {
+                x: 0,
+                y: 0,
+                w: 'auto',
+                h: api.winHeight - 55
+            },
+            bounces: false,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: false
+        });
+
+    }
+
+    function fnOpenProfile() {
+        api.openFrame({
+            name: 'profile',
+            url: './profile.html',
+            rect: {
+                x: 0,
+                y: 0,
+                w: 'auto',
+                h: api.winHeight - 55
+            },
+            bounces: false,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: false
+        });
+    }
+
+    function fnOpenProducts() {
+        api.openFrame({
+            name: 'fixedproducts',
+            url: './fixedProducts.html',
+            rect: {
+                x: 0,
+                y: 0,
+                w: 'auto',
+                h: api.winHeight - 55
+            },
+            bounces: false,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: false
+        });
+
+    }
+
+    function fnCloseWidget() {
+        api.addEventListener({
+            name: 'keyback'
+        }, function(ret, err) {
+            if (closeflg == 0) {
+                closeflg = 1;
+                api.toast({
+                    msg: '再按一次退出应用',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+                setTimeout(function() {
+                    closeflg = 0;
+                }, 1000);
+            } else {
+                api.closeWidget({
+                    silent: true
+                });
+            }
+        });
+    }
+
+    function fnSetSelct1() {
+        api.sendEvent({
+            name: 'mainMenuChanged',
+            extra: {
+                preIndex: preSelectIndex,
+                nowIndex: 1
+            }
+        });
+        preSelectIndex = 1;
+        NVTabBar.setSelect({
+            index: 1
+        });
+        fnOpenProducts();
+    }
+</script>
+
+</html>

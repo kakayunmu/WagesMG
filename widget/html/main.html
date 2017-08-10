@@ -7,202 +7,169 @@
     <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
     <title>Hello APP</title>
     <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/iconfont.css">
     <style>
+        html,
+        body {
+            background-color: #177EE5;
+        }
 
+        .header {
+            position: relative;
+            background-color: #177EE5;
+            font-size: 1.4rem;
+        }
+
+        .topmenu {
+            display: -webkit-box;
+            display: -webkit-flex;
+            -webkit-blox-orient: horizontal;
+            -webkit-flex-flow: row;
+            flex-flow: row;
+            transition: background-color 0.5s linear;
+            color: #fff;
+            text-align: center;
+        }
+
+        .topmenu .tmenu {
+            position: relative;
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+            overflow: auto;
+        }
+
+        .topmenu .tmenu i {
+            font-size: 3rem;
+            line-height: 6rem;
+        }
+
+        .topmenu .tmenu .tip {
+            line-height: normal;
+            font-size: 1.8rem;
+            width: 100%;
+            text-align: center;
+        }
+
+        .topmenu.min .tmenu .tip {
+            display: none;
+        }
+          .topmenu.min .tmenu i {
+              font-size: 2.5rem;
+              line-height: 5rem;
+          }
     </style>
 </head>
 
 <body>
-
+    <div class="header" id="header">
+        <div class="topmenu" id="topmenu">
+            <div class="tmenu" tapmod onclick="fnScan();">
+                <div><i class="iconfont icon-saoyisaojianjiban"></i></div>
+                <div class="tip">扫一扫</div>
+            </div>
+            <div class="tmenu">
+                <div><i class="iconfont icon-fukuan"></i></div>
+                <div class="tip">付 款</div>
+            </div>
+            <div class="tmenu" tapmod onclick="fnOpenProducts()">
+                <div><i class="iconfont icon-cunzhezhuanzhang"></i> </div>
+                <div class="tip">转 存</div>
+            </div>
+            <div class="tmenu">
+                <div><i class="iconfont icon-tixian"></i></div>
+                <div class="tip">提 现</div>
+            </div>
+        </div>
+    </div>
 </body>
 <script type="text/javascript" src="../script/api.js"></script>
 <script type="text/javascript">
-  var closeflg = 0;
     apiready = function() {
         fnOpenMainFrame();
-        fnMainMenu();
-        fnCloseWidget();
+        api.addEventListener({
+            name: 'mainMenuChanged'
+        }, function(ret, err) {
+            if (ret) {
+                if (ret.value.nowIndex == 0) {
+                    fnOpenMainFrame();
+                }
+            }
+        });
+    }
+
+    function fnTopmenuMin(){
+      var topmenu=$api.byId('topmenu');
+      $api.addCls(topmenu, 'min');
+      var header = $api.byId('header');
+      var headerHeight = $api.offset(header).h;
+      api.setFrameAttr({
+          name: 'mainFrame',
+          rect: {
+            x: 0,
+            y: headerHeight,
+            w: 'auto',
+            h: api.winHeight - 55 - headerHeight
+          }
+      });
+    }
+    function fnTopmenuMax(){
+      var topmenu=$api.byId('topmenu');
+      $api.removeCls(topmenu, 'min');
+      var header = $api.byId('header');
+      var headerHeight = $api.offset(header).h;
+      api.setFrameAttr({
+          name: 'mainFrame',
+          rect: {
+            x: 0,
+            y: headerHeight,
+            w: 'auto',
+            h: api.winHeight - 55 - headerHeight
+          }
+      });
+
     }
 
     function fnOpenMainFrame() {
+        var header = $api.byId('header');
+        $api.fixStatusBar(header);
+        var headerHeight = $api.offset(header).h;
         api.openFrame({
             name: 'mainFrame',
             url: './mainFrame.html',
             rect: {
                 x: 0,
-                y: 0,
+                y: headerHeight,
                 w: 'auto',
-                h: api.winHeight - 55
+                h: api.winHeight - 55 - headerHeight
             },
-            bounces: false,
-            bgColor: '#fff',
+            bounces: true,
+            bgColor: '#E7E7E7',
             vScrollBarEnabled: false,
             hScrollBarEnabled: false,
             animation: {
-                type: "push",
-                subType: "from_right",
-                duration: 300
+                type: "fade",
+                duration: 500
             }
         });
 
     };
 
-    function fnOpenProfileFrame() {
-        api.openFrame({
+    function fnOpenProfileWin() {
+        api.openWin({
             name: 'profile',
-            url: './profile.html',
-            rect: {
-                x: 0,
-                y: 0,
-                w: 'auto',
-                h: api.winHeight - 55
-            },
-            bounces: false,
-            bgColor: '#fff',
-            vScrollBarEnabled: false,
-            hScrollBarEnabled: false,
-            animation: {
-                type: "push",
-                subType: "from_right",
-                duration: 300
-            }
+            url: './profile.html'
         });
-
     };
 
-    var preSelectIndex = 0;
-
-    function fnMainMenu() {
-        var NVTabBar = api.require("NVTabBar");
-        NVTabBar.open({
-            styles: {
-                bg: '#F6F6F6',
-                h: 55,
-                dividingLine: {
-                    width: 0.5,
-                    color: '#E5E5E5'
-                },
-                badge: {
-                    bgColor: '#ff0',
-                    numColor: '#fff',
-                    size: 6.0,
-                    fontSize: 10 //数字类型,设置徽章字体大小,默认10。注意:仅支持iOS。
-                }
-            },
-            items: [{
-                w: api.winWidth / 3.0,
-                bg: {
-                    marginB: 0,
-                    image: 'rgba(0,0,0,0)'
-                },
-                iconRect: {
-                    w: 25.0,
-                    h: 25.0,
-                },
-                icon: {
-                    normal: 'widget://image/ico_home.png',
-                    highlight: 'widget://image/ico_home_selected.png',
-                    selected: 'widget://image/ico_home_selected2.png'
-                },
-                title: {
-                    text: '首页',
-                    size: 12.0,
-                    normal: '#808080',
-                    selected: '#177EE5',
-                    marginB: 6.0
-                }
-            }, {
-                w: api.winWidth / 3.0,
-                bg: {
-                    marginB: 0,
-                    image: 'rgba(0,0,0,0)'
-                },
-                iconRect: {
-                    w: 25.0,
-                    h: 25.0,
-                },
-                icon: {
-                    normal: 'widget://image/ico_shenghuo.png',
-                    highlight: 'widget://image/ico_shenghuo_selected.png',
-                    selected: 'widget://image/ico_shenghuo_selected2.png'
-                },
-                title: {
-                    text: '生活',
-                    size: 12.0,
-                    normal: '#808080',
-                    selected: '#177EE5',
-                    marginB: 6.0
-                }
-            }, {
-                w: api.winWidth / 3.0,
-                bg: {
-                    marginB: 0,
-                    image: 'rgba(0,0,0,0)'
-                },
-                iconRect: {
-                    w: 25.0,
-                    h: 25.0,
-                },
-                icon: {
-                    normal: 'widget://image/ico_my.png',
-                    highlight: 'widget://image/ico_my_selected.png',
-                    selected: 'widget://image/ico_my_selected2.png'
-                },
-                title: {
-                    text: '我的',
-                    size: 12.0,
-                    normal: '#808080',
-                    selected: '#177EE5',
-                    marginB: 6.0
-                }
-            }],
-            selectedIndex: 0
-        }, function(ret, err) {
-            if (ret) {
-                if (ret.eventType == "click") {
-                    if (preSelectIndex != ret.index) {
-                        api.sendEvent({
-                            name: 'mainMenuChanged',
-                            extra: {
-                                preIndex: preSelectIndex,
-                                nowIndex: ret.index
-                            }
-                        });
-                        if (ret.index == 0) {
-                            fnOpenMainFrame();
-                        } else if (ret.index == 1) {
-
-                        } else if (ret.index == 2) {
-                            fnOpenProfileFrame();
-                        }
-                    };
-                    preSelectIndex = ret.index;
-                }
-            }
-        });
-    }
-
-    function fnCloseWidget(){
-      api.addEventListener({
-          name: 'keyback'
-      }, function(ret, err) {
-          if (closeflg == 0) {
-              closeflg = 1;
-              api.toast({
-                  msg: '再按一次退出应用',
-                  duration: 2000,
-                  location: 'bottom'
-              });
-              setTimeout(function() {
-                  closeflg = 0;
-              }, 1000);
-          } else {
-              api.closeWidget({
-                  silent: true
-              });
-          }
+    function fnOpenProducts(){
+      api.execScript({
+          name: 'mainmenu',
+          script: 'fnSetSelct1();'
       });
+
     }
+
 </script>
 
 </html>

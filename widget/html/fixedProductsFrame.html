@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/iconfont.css">
+    <style>
+        html,
+        body {
+            background-color: #E7E7E7;
+        }
+
+        .mainlist {
+            position: relative;
+        }
+
+        .mainlist .ls2 {
+            background: #fff;
+            position: relative;
+            margin-top: 1rem;
+        }
+
+        .mainlist .ls2 .lstop {
+            font-size: 1.2rem;
+            padding: 1.5rem;
+            padding-left: 3.2rem;
+            position: relative;
+            color: #A4A4A4;
+        }
+
+        .mainlist .ls2 .lstop i {
+            font-size: 2.5rem;
+            color: #52C1E0;
+            left: 0.5rem;
+            position: absolute;
+            top: 1.8rem;
+        }
+
+        .mainlist .ls2 .ls2-body {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-blox-orient: horizontal;
+            -webkit-flex-flow: row;
+            color: #1A1A1A;
+            flex-flow: row;
+            padding-bottom: 1.5rem;
+        }
+
+        .mainlist .ls2 .ls2-body .ls2-left {
+            text-align: center;
+            position: relative;
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+            color: #F19521;
+            font-size: 2.5rem;
+            line-height: 4rem;
+            height: 6rem;
+        }
+
+        .mainlist .ls2 .ls2-body .ls2-left .ls2-leftdis {
+            line-height: 1rem;
+            font-size: 1.2rem;
+            position: absolute;
+            top: 4rem;
+            width: 100%;
+            color: #4C4C4C;
+        }
+
+        .mainlist .ls2 .ls2-body .ls2-right {
+            text-align: center;
+            position: relative;
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+        }
+
+        .mainlist .ls2 .ls2-body .ls2-right {
+            padding-right: 1.5rem;
+            text-align: right;
+            font-size: 1.2rem;
+            color: #4C4C4C;
+        }
+
+        .mainlist .ls2 .ls2-body .ls2-right .ls2-right-btn {
+            background-color: #177EE5;
+            color: #fff;
+            border-radius: .3rem;
+            display: inline-block;
+            padding: .5rem 1.5rem;
+        }
+
+        .mainlist .ls2 .ls2footer {
+            background-color: #f9f9f9;
+            text-align: center;
+            font-size: 1.2rem;
+            color: #A4A4A4;
+            padding: .5rem;
+        }
+
+        .noMore {
+            text-align: center;
+            font-size: 1.4rem;
+            padding: 1rem 0;
+            color: #ccc;
+        }
+
+        .zanwu {
+            margin-top: 5rem;
+            text-align: center;
+            font-size: 1.4rem;
+            padding: .5rem 0;
+            color: #ccc;
+        }
+
+        .zanwu i {
+            margin: 1rem 0;
+            font-size: 4rem;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mainlist" id='mainlist'>
+        <div class="zanwu">
+            <i class="iconfont icon-zanwu"></i> 暂无产品
+        </div>
+    </div>
+</body>
+<script type="text/x-dot-template" id="fptmp">
+    {{~ it:value:index}} {{? index==0}}
+    <div class="ls2" style="margin-top:0px;">
+        {{??}}
+        <div class="ls2">
+            {{?}}
+            <div class="lstop">
+                <i class="iconfont icon-product-mgr"></i>
+                <div>
+                    <div>转存产品</div>
+                    <div class="lstime">{{= $global.niceDate(value.createTime,'yyyy/MM/dd hh:mm')}}</div>
+                </div>
+            </div>
+            <div class="ls2-body">
+                <div class="ls2-left">
+                    {{= $global.formatNumber(value.aiRate,'#,##0.00')}}%
+                    <div class="ls2-leftdis">年化收益</div>
+                </div>
+                <div class="ls2-right">
+                    <div>{{= value.name}}</div>
+                    {{? value.timeLimitUnit==0}}
+                    <div>期限{{= value.timeLimit}}天</div>
+                    {{??}}
+                    <div>期限{{= value.timeLimit}}个月</div>
+                    {{?}}
+                    <div class="ls2-right-btn" tapmode onclick='openDumpFixedWin("{{= value.id}}")'>马上转存</div>
+                </div>
+            </div>
+        </div>
+        {{~}}
+</script>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/config.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script type="text/javascript" src="../script/doT.min.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        fnLoadFixedProducts();
+        fnLoadMore();
+        api.setCustomRefreshHeaderInfo({
+            bgColor: '#177EE5',
+            isScale: true,
+            loadAnimInterval: 30,
+            image: {
+                pull: [
+                    'widget://image/loading/pull/1.png',
+                    'widget://image/loading/pull/2.png',
+                    'widget://image/loading/pull/3.png',
+                    'widget://image/loading/pull/4.png',
+                    'widget://image/loading/pull/5.png',
+                    'widget://image/loading/pull/6.png'
+                ],
+                load: [
+                    'widget://image/loading/pull/1.png',
+                    'widget://image/loading/pull/2.png',
+                    'widget://image/loading/pull/3.png',
+                    'widget://image/loading/pull/4.png',
+                    'widget://image/loading/pull/5.png',
+                    'widget://image/loading/pull/6.png'
+                ]
+            }
+        }, function() {
+            fnLoadFixedProducts();
+            pageIndex = 1;
+            noMore = false;
+        });
+    };
+    var pageIndex = 1;
+    var noMore = false;
+
+    function fnLoadFixedProducts() {
+        $global.ajax({
+            url: VAR_HOST + '/Api/Main/GetFixedProducts?pageIndex=' + pageIndex + '&pageSize=5',
+            method: 'get',
+            cache: true
+        }, function(ret, err) {
+            if (ret.status == 0) {
+                var mainlist = $api.byId('mainlist');
+                if (ret.fixedProducts.length > 0) { //如果还有下一页
+                    var tmp = doT.template($api.html($api.byId('fptmp')));
+                    if (pageIndex == 1) {
+                        $api.html(mainlist, tmp(ret.fixedProducts));
+                    } else {
+                        $api.append(mainlist, tmp(ret.fixedProducts));
+                    }
+                }
+                if (ret.fixedProducts.length < 5) { //没有更多了
+                    $global.log('已没更多了');
+                    noMore = true;
+                    $api.append(mainlist, '<div class="noMore">没有更多了</div>');
+                } else {
+                    pageIndex += 1;
+                }
+            }
+            api.refreshHeaderLoadDone();
+        });
+    }
+
+    //上拉加载更多
+    function fnLoadMore() {
+        api.addEventListener({
+            name: 'scrolltobottom',
+            extra: {
+                threshold: 10
+            }
+        }, function(ret, err) {
+            $global.log('上拉加载更多');
+            if (noMore) {
+                api.toast({
+                    msg: '没有更多啦',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+            } else {
+                fnLoadFixedProducts();
+            }
+        });
+    }
+
+    function openDumpFixedWin(proId) {
+        api.openWin({
+            name: 'dumpFixed',
+            url: './dumpFixed.html',
+            pageParam: {
+                proId: proId
+            }
+        });
+    }
+</script>
+
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/iconfont.css" />
+    <style>
+        html,
+        body {
+            background-color: #E7E7E7;
+        }
+
+        header {
+            background-color: #F6F6F6;
+            height: 5rem;
+            border-bottom: 1px solid #C2C2C2;
+            color: #222;
+            padding: 0 15px;
+            /*overflow: hidden;*/
+        }
+
+        .headerfax {
+            position: relative;
+            font-size: 1.6rem;
+        }
+
+        .headerfax .hf-back {
+            position: relative;
+            float: left;
+            width: 3rem;
+        }
+
+        .headerfax .hf-back i {
+            font-size: 2rem;
+            line-height: 3rem;
+            margin: 1rem 0rem;
+            color: #177EE5;
+        }
+
+        .headerfax .hf-left {
+            line-height: 3rem;
+            margin: 1rem 0;
+            border-left: 1px solid #C2C2C2;
+            position: relative;
+            margin-left: 3rem;
+            padding-left: 1.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="header">
+        <div class="headerfax">
+            <div class="hf-back" tapmode onclick="fnCloseWin()">
+                <i class="iconfont icon-fanhui"></i>
+            </div>
+            <div class="hf-left" id='headername'></div>
+        </div>
+    </header>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/iconfont.js"></script>
+<script type="text/javascript" src="../script/config.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        var header = document.querySelector('#header');
+        $api.fixStatusBar(header);
+        fnOpenRecordFrame();
+    };
+
+    function fnOpenRecordFrame() {
+        var rType = api.pageParam.rType;
+        $global.log(rType);
+        switch (rType) {
+            case 1:
+                $api.html($api.byId('headername'), "工资记录");
+                break;
+            case 2:
+                $api.html($api.byId('headername'), "充值记录");
+                break;
+            case 3:
+                $api.html($api.byId('headername'), "消费记录");
+                break;
+            case 4:
+                $api.html($api.byId('headername'), "提现记录");
+                break;
+            case 5:
+                $api.html($api.byId('headername'), "转账记录");
+                break;
+            case 6:
+                $api.html($api.byId('headername'), "收益记录");
+                break;
+            case 7:
+                $api.html($api.byId('headername'), "转存记录");
+                break;
+            case 8:
+                $api.html($api.byId('headername'), "图文");
+                break;
+            default:
+                $api.html($api.byId('headername'), "未知");
+                break;
+        }
+        var header = $api.byId('header');
+        var headerHeight = $api.offset(header).h;
+        api.openFrame({
+            name: 'RecordFrame',
+            url: './RecordFrame.html',
+            rect: {
+                x: 0,
+                y: headerHeight,
+                w: 'auto',
+                h: api.winHeight - headerHeight
+            },
+            pageParam: {
+                rType: rType
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: false
+        });
+
+    }
+
+    function fnCloseWin() {
+        api.closeWin();
+    }
+</script>
+
+</html>

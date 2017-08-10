@@ -129,25 +129,25 @@
         </li>
     </ul>
     <ul class="lsmenus">
-        <li>
+        <li tapmode onclick="fnOpenRecord(1)">
             <div class="lmico"><i class="iconfont icon-gongzi" style="color:#F25948;"></i></div>
             <div class="lmcontent">工资记录</div>
             <div class="lmdis"></div>
         </li>
-        <li>
+        <li tapmode onclick="fnOpenRecord(4)">
             <div class="lmico"><i class="iconfont icon-tixian" style="color:#FCB513;"></i></div>
             <div class="lmcontent">提现记录</div>
             <div class="lmdis">本月提现明细</div>
         </li>
-        <li>
+        <li tapmode onclick="fnOpenRecord(6)">
             <div class="lmico"><i class="iconfont icon-xiaofei" style="color:#F85854;"></i></div>
-            <div class="lmcontent">消费记录</div>
-            <div class="lmdis">最近3个月消费信息</div>
+            <div class="lmcontent">收益记录</div>
+            <div class="lmdis">最近定存产品收益</div>
         </li>
-        <li>
+        <li tapmode onclick="fnOpenRecord(5)">
             <div class="lmico"><i class="iconfont icon-71" style="color:#FCB513;"></i></div>
             <div class="lmcontent">转账记录</div>
-            <div class="lmdis">本月提现明细</div>
+            <div class="lmdis">本月转账明细</div>
         </li>
     </ul>
     <ul class="lsmenus">
@@ -182,6 +182,17 @@
         api.refreshHeaderLoadDone();
       });
     };
+
+    function fnOpenRecord(rType){
+      api.openWin({
+          name: 'Record',
+          url: './Record.html',
+          pageParam: {
+              rType: rType
+          }
+      });
+
+    }
 </script>
 
 </html>

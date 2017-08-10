@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        header {
+            background-color: #177EE5;
+            color: #fff;
+              height: 5rem;
+              text-align: center;
+              font-size: 1.6rem;
+              line-height: 5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="header">定存产品</header>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        var header = $api.byId('header');
+        $api.fixStatusBar(header);
+        fnOpenFPFrame();
+        api.addEventListener({
+            name: 'mainMenuChanged'
+        }, function(ret, err) {
+            if (ret) {
+                if (ret.value.nowIndex == 1) {
+                    fnOpenFPFrame();
+                }
+            }
+        });
+    };
+
+    function fnOpenFPFrame(){
+      var header = $api.byId("header");
+      var offset = $api.offset(header);
+      api.openFrame({
+          name: 'fixedProductsFrame',
+          url: './fixedProductsFrame.html',
+          rect: {
+            x: 0,
+            y: offset.h,
+            w: 'auto',
+            h: api.winHeight - 55 - offset.h
+          },
+          bounces: true,
+          bgColor: '#E7E7E7',
+          vScrollBarEnabled: false,
+          hScrollBarEnabled: false,
+          animation: {
+              type: "fade",
+              duration: 500
+          }
+      });
+
+    }
+</script>
+
+</html>

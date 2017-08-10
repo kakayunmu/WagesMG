@@ -129,6 +129,7 @@
 </body>
 <script type="text/javascript" src="../script/api.js"></script>
 <script type="text/javascript" src="../script/config.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
 <script type="text/javascript">
     var maxHeight;
     var closeflg = 0;
@@ -182,7 +183,7 @@
         var pwdVar = $api.val(pwd);
         if (mobileVar && pwdVar && mobileVar != '' && pwdVar != '') {
             if ((/^1[34578]\d{9}$/.test(mobileVar))) {
-                api.ajax({
+                $global.ajax({
                     url: VAR_HOST + '/API/Basics/Login',
                     method: 'post',
                     data: {
@@ -192,13 +193,14 @@
                         }
                     }
                 }, function(ret, err) {
+                  $global.log(JSON.stringify(ret));
                     if (ret) {
                         if (ret.status == 0) {
                             $api.setStorage('accessToken', ret.accessToken);
                             $api.setStorage('staff', ret.staff);
                             api.openWin({
-                                name: 'main',
-                                url: './main.html',
+                                name: 'mainmenu',
+                                url: './mainmenu.html'
                             });
                             api.toast({
                                 msg: '登录成功',
@@ -208,6 +210,7 @@
                             setTimeout(function(){
                               api.closeWin();
                             },1000);
+                            $global.log('登录成功');
                         } else {
                             api.toast({
                                 msg: ret.msg,
@@ -218,12 +221,12 @@
                         }
                     } else {
                         api.toast({
-                            msg: JSON.stringify(err),
+                            msg: err.msg,
                             duration: 2000,
                             location: 'bottom'
                         });
                     }
-                });
+                },true);
             } else {
                 api.toast({
                     msg: '手机号码格式不正确',

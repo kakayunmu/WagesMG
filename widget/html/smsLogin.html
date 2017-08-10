@@ -130,6 +130,7 @@
 </body>
 <script type="text/javascript" src="../script/api.js"></script>
 <script type="text/javascript" src="../script/config.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
 
 </script>
 <script type="text/javascript">
@@ -170,7 +171,7 @@
                 }
             }, 1000);
 
-            api.ajax({
+            $global.ajax({
                 url: VAR_HOST + '/Api/Basics/SendLoginVcode',
                 method: 'post',
                 data: {
@@ -192,7 +193,7 @@
                         location: 'bottom'
                     });
                 }
-            });
+            },true);
 
         } else {
             api.toast({
@@ -213,7 +214,7 @@
         var vcode = $api.byId('vcode');
         var vcodeval = $api.val(vcode);
         if (mobileval && vcode && mobileval != '' && vcode != '') {
-            api.ajax({
+            $global.ajax({
                 url: VAR_HOST + '/Api/Basics/LoginWithVCode',
                 method: 'post',
                 data: {
@@ -228,9 +229,8 @@
                         $api.setStorage('accessToken', ret.accessToken);
                         $api.setStorage('staff', ret.staff);
                         api.openWin({
-                            name: 'main',
-                            url: './main.html',
-                            pageParam: {}
+                            name: 'mainmenu',
+                            url: './mainmenu.html'
                         });
 
                         api.toast({
@@ -258,7 +258,7 @@
                         location: 'bottom'
                     });
                 }
-            });
+            },true);
 
         } else {
             api.toast({

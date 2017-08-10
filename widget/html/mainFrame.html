@@ -15,69 +15,24 @@
 
         .header {
             position: relative;
-            height: 18rem;
             background-color: #177EE5;
-            /*background-image: url(../image/ad_01.png);*/
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: center;
             font-size: 1.4rem;
-        }
-
-        .topmenu {
-            display: -webkit-box;
-            display: -webkit-flex;
-            display: flex;
-            -webkit-blox-orient: horizontal;
-            -webkit-flex-flow: row;
-            flex-flow: row;
-            transition: background-color 0.5s linear;
-            color: #fff;
-            text-align: center;
-            position: fixed;
-            top: 0px;
-            width: 100%;
-            padding-top: 25px;
-        }
-
-        .fexMenu {
-            background-color: #177EE5;
-            z-index: 999;
-        }
-
-        .topmenu .tmenu {
-            position: relative;
-            -webkit-box-flex: 1;
-            -webkit-flex: 1;
-            flex: 1;
-        }
-
-        .topmenu .tmenu i {
-            font-size: 3rem;
-            line-height: 6rem;
-        }
-
-        .topmenu .tmenu .tip {
-            line-height: normal;
-            position: absolute;
-            top: 5rem;
-            font-size: 1.8rem;
-            width: 100%;
-            text-align: center;
-            ;
+            padding: 2rem;
         }
 
         .header-main {
-            position: absolute;
-            top: 12rem;
             width: 100%;
             text-align: center;
             color: #fff;
-            z-index: 99;
         }
 
         .header-main .zje {
             font-size: 4rem;
+        }
+
+        .header-main .lilu {
+            font-size: 1.4rem;
+            margin-top: .5rem;
         }
 
         .fexMenu .tmenu .tip {
@@ -341,228 +296,215 @@
         .hgje .hgjeitem .hgjedis {
             color: #4C4C4C;
         }
+
+        .noMore {
+            text-align: center;
+            font-size: 1.4rem;
+            padding: 1rem 0;
+            color: #ccc;
+        }
     </style>
 </head>
 
 <body>
     <div class="header" id="header">
-        <div class="topmenu" id="topmenu">
-            <div class="tmenu" tapmod onclick="fnScan();">
-                <div><i class="iconfont icon-saoyisaojianjiban"></i></div>
-                <div class="tip">扫一扫</div>
-            </div>
-            <div class="tmenu">
-                <div><i class="iconfont icon-fukuan"></i></div>
-                <div class="tip">付 款</div>
-            </div>
-            <div class="tmenu">
-                <div><i class="iconfont icon-cunzhezhuanzhang"></i> </div>
-                <div class="tip">转 存</div>
-            </div>
-            <div class="tmenu">
-                <div><i class="iconfont icon-tixian"></i></div>
-                <div class="tip">提 现</div>
-            </div>
-        </div>
         <div class="header-main">
-            <div class="zje">￥82,897.00</div>
+            <div class="zje" id="zje">￥0.00</div>
+            <div class="lilu">今日活期年化 <span id="lilu">2.5</span>%</div>
         </div>
     </div>
     <div class="hgje">
         <div class="hgjeitem">
-            <div class="hgjenum">2,007</div>
+            <div class="hgjenum" id="currentAmount">0.00</div>
             <div class="hgjedis">活期金额（单位元）</div>
         </div>
         <div class="hgjeitem">
-            <div class="hgjenum">300.00</div>
+            <div class="hgjenum" id="fixedAmount">0.00</div>
             <div class="hgjedis">转存金额（单位元）</div>
         </div>
     </div>
-    <div class="mainlist">
-        <div class="ls2">
-            <div class="lstop">
-                <i class="iconfont icon-product-mgr"></i>
-                <div>
-                    <div>转存产品</div>
-                    <div class="lstime">07-01 11:23</div>
-                </div>
-            </div>
-            <div class="ls2-body">
-                <div class="ls2-left">
-                    2.35%
-                    <div class="ls2-leftdis">年化收益</div>
-                </div>
-                <div class="ls2-right">
-                    <div>招招盈</div>
-                    <div>期限2个月</div>
-                    <div class="ls2-right-btn">马上转存</div>
-                </div>
-            </div>
-            <div class="ls2footer">
-                查看更多
-            </div>
-        </div>
-        <div class="ls1">
-            <div class="lstop">
-                <i class="iconfont icon-shouqian"></i>
-                <div>
-                    <div>收益记录</div>
-                    <div class="lstime">07-01 11:23</div>
-                </div>
-            </div>
-            <div class="ls1-body">
-                <div class="ls1-left">本月收益 <span style="font-size:2rem;">￥200</span></div>
-                <div class="ls1-right">
-                    <div>总金额：10,234.00</div>
-                    <div>累计收益：435.23</div>
-                </div>
-            </div>
-        </div>
-        <div class="ls3">
-        </div>
-        <div class="ls4">
-            <div class="lstop">
-                <i class="iconfont icon-gongzi"></i>
-                <div>
-                    <div>工资发放</div>
-                    <div class="lstime">07-01 11:23</div>
-                </div>
-            </div>
-            <div class="ls4-body">
-                <div class="ls4-body-main">+8,345.34</div>
-                <div class="ls4-body-dis">工资收入</div>
-            </div>
-        </div>
-        <div class="ls5">
-            <div class="lstop">
-                <i class="iconfont icon-71"></i>
-                <div>
-                    <div>转账记录</div>
-                    <div class="lstime">07-01 11:23</div>
-                </div>
-            </div>
-            <div class="ls5-body">
-                <div class="ls5-body-main">-300</div>
-                <div class="ls5-body-dis">转账支出</div>
-            </div>
-        </div>
-        <div class="ls1">
-            <div class="lstop">
-                <i class="iconfont icon-shouqian"></i>
-                <div>
-                    <div>收益记录</div>
-                    <div class="lstime">07-01 11:23</div>
-                </div>
-            </div>
-            <div class="ls1-body">
-                <div class="ls1-left">本月收益 <span style="font-size:2rem;">￥2026</span></div>
-                <div class="ls1-right">
-                    <div>总金额：10,234.00</div>
-                    <div>累计收益：435.23</div>
-                </div>
-            </div>
-        </div>
-        <div class="ls1">
-            <div class="lstop">
-                <i class="iconfont icon-shouqian"></i>
-                <div>
-                    <div>收益记录</div>
-                    <div class="lstime">07-01 11:23</div>
-                </div>
-            </div>
-            <div class="ls1-body">
-                <div class="ls1-left">本月收益 <span style="font-size:2rem;">￥200</span></div>
-                <div class="ls1-right">
-                    <div>总金额：10,234.00</div>
-                    <div>累计收益：435.23</div>
-                </div>
-            </div>
-        </div>
-        <div class="ls1">
-            <div class="lstop">
-                <i class="iconfont icon-shouqian"></i>
-                <div>
-                    <div>收益记录</div>
-                    <div class="lstime">07-01 11:23</div>
-                </div>
-            </div>
-            <div class="ls1-body">
-                <div class="ls1-left">本月收益 <span style="font-size:2rem;">￥200</span></div>
-                <div class="ls1-right">
-                    <div>总金额：10,234.00</div>
-                    <div>累计收益：435.23</div>
-                </div>
-            </div>
-        </div>
-        <div class="ls1">
-            <div class="lstop">
-                <i class="iconfont icon-shouqian"></i>
-                <div>
-                    <div>收益记录</div>
-                    <div class="lstime">07-01 11:23</div>
-                </div>
-            </div>
-            <div class="ls1-body">
-                <div class="ls1-left">本月收益 <span style="font-size:2rem;">￥200</span></div>
-                <div class="ls1-right">
-                    <div>总金额：10,234.00</div>
-                    <div>累计收益：435.23</div>
-                </div>
-            </div>
-        </div>
-        <div class="ls1">
-            <div class="lstop">
-                <i class="iconfont icon-shouqian"></i>
-                <div>
-                    <div>收益记录</div>
-                    <div class="lstime">07-01 11:23</div>
-                </div>
-            </div>
-            <div class="ls1-body">
-                <div class="ls1-left">本月收益 <span style="font-size:2rem;">￥200</span></div>
-                <div class="ls1-right">
-                    <div>总金额：10,234.00</div>
-                    <div>累计收益：435.23</div>
-                </div>
-            </div>
+    <div class="mainlist" id="mainlist">
+        <div id="area1"></div>
+        <div id="area2">
         </div>
     </div>
 </body>
+<!-- 热门产品模板 -->
+<script type="text/x-dot-template" id="hotfprotmp">
+    <div class="ls2">
+        <div class="lstop">
+            <i class="iconfont icon-product-mgr"></i>
+            <div>
+                <div>转存产品</div>
+                <div class="lstime">{{= $global.formatDate(it.createTime,'yyyy/MM/dd')}}</div>
+            </div>
+        </div>
+        <div class="ls2-body">
+            <div class="ls2-left">
+                {{= it.aiRate}}%
+                <div class="ls2-leftdis">年化收益</div>
+            </div>
+            <div class="ls2-right">
+                <div>{{= it.name}}</div>
+                {{? it.timeLimitUnit==0}}
+                <div>期限{{= it.timeLimit}}天</div>
+                {{??}}
+                <div>期限{{= it.timeLimit}}个月</div>
+                {{?}}
+                <div class="ls2-right-btn" tapmode onclick='openDumpFixedWin("{{= it.id}}")'>马上转存</div>
+            </div>
+        </div>
+        <div class="ls2footer">
+            查看更多
+        </div>
+    </div>
+</script>
+<script type="text/x-dot-template" id="cdtmp">
+    {{~ it:value:index}} {{? value.mType==6}}
+    <div class="ls1">
+        <div class="lstop">
+            <i class="iconfont icon-shouqian"></i>
+            <div>
+                <div>收益记录</div>
+                <div class="lstime">07-01 11:23</div>
+            </div>
+        </div>
+        <div class="ls1-body">
+            <div class="ls1-left">本月收益 <span style="font-size:2rem;">￥200</span></div>
+            <div class="ls1-right">
+                <div>总金额：10,234.00</div>
+                <div>累计收益：435.23</div>
+            </div>
+        </div>
+    </div>
+    {{?? value.mType==8}}
+    <div class="ls3">
+    </div>
+    {{?? value.mType==1}}
+    <div class="ls4">
+        <div class="lstop">
+            <i class="iconfont icon-gongzi"></i>
+            <div>
+                <div>工资发放</div>
+                <div class="lstime">{{= $global.niceDate(value.createTime,'yyyy/MM/dd hh:mm')}}</div>
+            </div>
+        </div>
+        <div class="ls4-body">
+            <div class="ls4-body-main">{{= $global.formatNumber(value.amount,'#,##0.00')}}</div>
+            <div class="ls4-body-dis">{{= value.remarks}}</div>
+        </div>
+    </div>
+    {{?? value.mType==5}}
+    <div class="ls5">
+        <div class="lstop">
+            <i class="iconfont icon-71"></i>
+            <div>
+                <div>转账记录</div>
+                <div class="lstime">07-01 11:23</div>
+            </div>
+        </div>
+        <div class="ls5-body">
+            <div class="ls5-body-main">-300</div>
+            <div class="ls5-body-dis">转账支出</div>
+        </div>
+    </div>
+    {{?? value.mType==7}}
+    <div class="ls5">
+        <div class="lstop">
+            <i class="iconfont icon-dingqilicai"></i>
+            <div>
+                <div>转定存</div>
+                <div class="lstime">{{= $global.niceDate(value.createTime,'yyyy/MM/dd hh:mm')}}</div>
+            </div>
+        </div>
+        <div class="ls5-body">
+            <div class="ls5-body-main">{{= $global.formatNumber(value.amount,'#,##0.00')}}</div>
+            <div class="ls5-body-dis">购买定存{{= value.remarks}}</div>
+        </div>
+    </div>
+    {{?}} {{~}}
+</script>
 <script type="text/javascript" src="../script/api.js"></script>
 <script type="text/javascript" src="../script/iconfont.js"></script>
+<script type="text/javascript" src="../script/config.js"></script>
+<script type="text/javascript" src=../script/global.js></script>
+<script type="text/javascript" src="../script/doT.min.js"></script>
 <script type="text/javascript">
+    var istop = true;
     apiready = function() {
-        var header = document.querySelector('#header');
-        $api.fixStatusBar(header);
+        fnLoadEdu();
+        fnLoadMore();
         window.onscroll = function() {
             var top = document.documentElement.scrollTop || document.body.scrollTop;
-            var topmenu = $api.byId('topmenu');
-            if (top != 0) {
-                $api.addCls(topmenu, 'fexMenu');
+            if (top == 0) {
+                api.execScript({
+                    frameName: 'main',
+                    script: 'fnTopmenuMax();'
+                });
+                istop = true;
             } else {
-                $api.removeCls(topmenu, 'fexMenu');
+                if (top > 80) {
+                    if (istop) {
+                        api.execScript({
+                            frameName: 'main',
+                            script: 'fnTopmenuMin();'
+                        });
+                    }
+                }
             }
         };
+
+        api.setCustomRefreshHeaderInfo({
+            bgColor: '#177EE5',
+            isScale: true,
+            loadAnimInterval: 30,
+            image: {
+                pull: [
+                    'widget://image/loading/pull/1.png',
+                    'widget://image/loading/pull/2.png',
+                    'widget://image/loading/pull/3.png',
+                    'widget://image/loading/pull/4.png',
+                    'widget://image/loading/pull/5.png',
+                    'widget://image/loading/pull/6.png'
+                ],
+                load: [
+                    'widget://image/loading/pull/1.png',
+                    'widget://image/loading/pull/2.png',
+                    'widget://image/loading/pull/3.png',
+                    'widget://image/loading/pull/4.png',
+                    'widget://image/loading/pull/5.png',
+                    'widget://image/loading/pull/6.png'
+                ]
+            }
+        }, function() {
+            fnFlashData();
+        });
     };
 
+    function fnFlashData() {
+        fnLoadEdu();
+        cdPageIndex = 1;
+        noMore = false;
+    }
+
     function fnScan() {
-      api.openFrame({
-          name: 'scanFrame',
-          url: './scanFrame.html',
-          rect: {
-              x: 0,
-              y: 0,
-              w: 'auto',
-              h: 'auto'
-          },
-          pageParam: {
-              name: 'test'
-          },
-          bounces: true,
-          bgColor: 'rgba(0,0,0,0.5)',
-          vScrollBarEnabled: false,
-          hScrollBarEnabled: false
-      });
+        api.openFrame({
+            name: 'scanFrame',
+            url: './scanFrame.html',
+            rect: {
+                x: 0,
+                y: 0,
+                w: 'auto',
+                h: 'auto'
+            },
+            pageParam: {
+                name: 'test'
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0.5)',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: false
+        });
 
         var scanner = api.require('scanner');
         scanner.openView({
@@ -571,7 +513,7 @@
             w: 'auto',
             h: 'auto',
             sound: "widget://res/scan.wav",
-            fixedOn:'scanFrame'
+            fixedOn: 'scanFrame'
         }, function(ret, err) {
             if (ret) {
                 alert(JSON.stringify(ret));
@@ -581,6 +523,124 @@
         });
 
     };
+
+    function fnLoadEdu() {
+        $global.log('执行获取额度等信息');
+        $global.ajax({
+            url: VAR_HOST + '/Api/Main/GetTotalAmount',
+            method: 'get',
+            cache: true
+        }, function(ret, err) {
+            $global.log(JSON.stringify(ret));
+            if (ret) {
+                if (ret.status == 0) {
+                    var zje = $api.byId('zje');
+                    var lilu = $api.byId('lilu');
+                    var currentAmount = $api.byId('currentAmount');
+                    var fixedAmount = $api.byId('fixedAmount');
+                    $api.html(zje, $global.formatNumber(ret.totalAmountData.totalAmount, '#,##0.00'));
+                    $api.html(lilu, $global.formatNumber(ret.totalAmountData.generalInterestRate, '#,##0.00'));
+                    $api.html(currentAmount, $global.formatNumber(ret.totalAmountData.currentAmount, '#,##0.00'));
+                    $api.html(fixedAmount, $global.formatNumber(ret.totalAmountData.fixedAmount, '#,##0.00'));
+                } else {
+                    api.toast({
+                        msg: ret.msg,
+                        duration: 2000,
+                        location: 'bottom'
+                    });
+
+                }
+            } else {
+                api.toast({
+                    msg: '获取数据失败',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+
+            }
+            fnLoadFPro(); //获取热门产品
+            fnLoadCurrentDeposits(); //获取活期记录
+        });
+    }
+    //获取最热产品
+    function fnLoadFPro() {
+        $global.log('获取热门产品');
+        $global.ajax({
+            url: VAR_HOST + '/API/Main/GetMaxHotFProduct',
+            method: 'get',
+            cache: true
+        }, function(ret, err) {
+            $global.log(JSON.stringify(ret));
+            if (ret && ret.status == 0) {
+                var tmp = doT.template($api.html($api.byId('hotfprotmp')));
+                var area1 = $api.byId('area1');
+                $api.html(area1, tmp(ret.fixedProduct));
+
+            }
+        });
+    }
+    var cdPageIndex = 1;
+    var noMore = false;
+
+    function fnLoadCurrentDeposits() {
+        $global.log('获取活期变动记录');
+        $global.ajax({
+            url: VAR_HOST + '/Api/Main/GetCurrentDeposits?pageIndex=' + cdPageIndex + '&pageSize=5',
+            method: 'get',
+            cache: true
+        }, function(ret, err) {
+            if (ret.status == 0) {
+                var area2 = $api.byId('area2');
+                if (ret.currentDeposits.length > 0) { //如果还有下一页
+                    var tmp = doT.template($api.html($api.byId('cdtmp')));
+
+                    if (cdPageIndex == 1) {
+                        $api.html(area2, tmp(ret.currentDeposits));
+                    } else {
+                        $api.append(area2, tmp(ret.currentDeposits));
+                    }
+                }
+                if (cdPageIndex != 1 && ret.currentDeposits.length < 5) { //没有更多了
+                    $global.log('已没更多了');
+                    noMore = true;
+                    $api.append(area2, '<div class="noMore">没有更多了</div>');
+                } else {
+                    cdPageIndex += 1;
+                }
+            }
+            api.refreshHeaderLoadDone();
+        });
+    }
+    //上拉加载更多
+    function fnLoadMore() {
+        api.addEventListener({
+            name: 'scrolltobottom',
+            extra: {
+                threshold: 10
+            }
+        }, function(ret, err) {
+            $global.log('上拉加载更多');
+            if (noMore) {
+                api.toast({
+                    msg: '没有更多啦',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+            } else {
+                fnLoadCurrentDeposits();
+            }
+        });
+    }
+
+    function openDumpFixedWin(proId) {
+        api.openWin({
+            name: 'dumpFixed',
+            url: './dumpFixed.html',
+            pageParam: {
+                proId: proId
+            }
+        });
+    }
 </script>
 
 </html>

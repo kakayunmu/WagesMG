@@ -72,7 +72,6 @@
                 }
             }
         });
-
     };
 
     function fnOpenProfileFrame() {
@@ -92,12 +91,11 @@
             },
             bounces: true,
             bgColor: '#E7E7E7',
-            vScrollBarEnabled: true,
-            hScrollBarEnabled: true,
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: false,
             animation: {
-                type: "push",
-                subType: "from_right",
-                duration: 300
+                type: "fade",
+                duration: 500
             }
         });
 
