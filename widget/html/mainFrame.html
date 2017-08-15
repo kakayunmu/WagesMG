@@ -457,7 +457,7 @@
         api.setCustomRefreshHeaderInfo({
             bgColor: '#177EE5',
             isScale: true,
-            loadAnimInterval: 30,
+            loadAnimInterval: 100,
             image: {
                 pull: [
                     'widget://image/loading/pull/1.png',
@@ -482,47 +482,10 @@
     };
 
     function fnFlashData() {
-        fnLoadEdu();
-        cdPageIndex = 1;
+		cdPageIndex = 1;
         noMore = false;
+        fnLoadEdu();
     }
-
-    function fnScan() {
-        api.openFrame({
-            name: 'scanFrame',
-            url: './scanFrame.html',
-            rect: {
-                x: 0,
-                y: 0,
-                w: 'auto',
-                h: 'auto'
-            },
-            pageParam: {
-                name: 'test'
-            },
-            bounces: true,
-            bgColor: 'rgba(0,0,0,0.5)',
-            vScrollBarEnabled: false,
-            hScrollBarEnabled: false
-        });
-
-        var scanner = api.require('scanner');
-        scanner.openView({
-            x: 0,
-            y: 0,
-            w: 'auto',
-            h: 'auto',
-            sound: "widget://res/scan.wav",
-            fixedOn: 'scanFrame'
-        }, function(ret, err) {
-            if (ret) {
-                alert(JSON.stringify(ret));
-            } else {
-                alert(JSON.stringify(err));
-            }
-        });
-
-    };
 
     function fnLoadEdu() {
         $global.log('执行获取额度等信息');

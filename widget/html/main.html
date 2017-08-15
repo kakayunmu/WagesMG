@@ -54,10 +54,11 @@
         .topmenu.min .tmenu .tip {
             display: none;
         }
-          .topmenu.min .tmenu i {
-              font-size: 2.5rem;
-              line-height: 5rem;
-          }
+
+        .topmenu.min .tmenu i {
+            font-size: 2.5rem;
+            line-height: 5rem;
+        }
     </style>
 </head>
 
@@ -98,35 +99,36 @@
         });
     }
 
-    function fnTopmenuMin(){
-      var topmenu=$api.byId('topmenu');
-      $api.addCls(topmenu, 'min');
-      var header = $api.byId('header');
-      var headerHeight = $api.offset(header).h;
-      api.setFrameAttr({
-          name: 'mainFrame',
-          rect: {
-            x: 0,
-            y: headerHeight,
-            w: 'auto',
-            h: api.winHeight - 55 - headerHeight
-          }
-      });
+    function fnTopmenuMin() {
+        var topmenu = $api.byId('topmenu');
+        $api.addCls(topmenu, 'min');
+        var header = $api.byId('header');
+        var headerHeight = $api.offset(header).h;
+        api.setFrameAttr({
+            name: 'mainFrame',
+            rect: {
+                x: 0,
+                y: headerHeight,
+                w: 'auto',
+                h: api.winHeight - 55 - headerHeight
+            }
+        });
     }
-    function fnTopmenuMax(){
-      var topmenu=$api.byId('topmenu');
-      $api.removeCls(topmenu, 'min');
-      var header = $api.byId('header');
-      var headerHeight = $api.offset(header).h;
-      api.setFrameAttr({
-          name: 'mainFrame',
-          rect: {
-            x: 0,
-            y: headerHeight,
-            w: 'auto',
-            h: api.winHeight - 55 - headerHeight
-          }
-      });
+
+    function fnTopmenuMax() {
+        var topmenu = $api.byId('topmenu');
+        $api.removeCls(topmenu, 'min');
+        var header = $api.byId('header');
+        var headerHeight = $api.offset(header).h;
+        api.setFrameAttr({
+            name: 'mainFrame',
+            rect: {
+                x: 0,
+                y: headerHeight,
+                w: 'auto',
+                h: api.winHeight - 55 - headerHeight
+            }
+        });
 
     }
 
@@ -162,14 +164,31 @@
         });
     };
 
-    function fnOpenProducts(){
-      api.execScript({
-          name: 'mainmenu',
-          script: 'fnSetSelct1();'
-      });
+    function fnOpenProducts() {
+        api.execScript({
+            name: 'mainmenu',
+            script: 'fnSetSelct1();'
+        });
 
     }
 
+
+
+    function fnScan() {    
+        var FNScanner = api.require('FNScanner');
+        FNScanner.openScanner({
+            autorotation: true,
+
+        }, function(ret, err) {
+            if (ret) {
+                alert(JSON.stringify(ret));
+            } else {
+                alert(JSON.stringify(err));
+            }
+        });
+
+
+    };
 </script>
 
 </html>
