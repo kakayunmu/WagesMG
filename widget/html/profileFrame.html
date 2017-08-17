@@ -122,7 +122,7 @@
         </div>
     </div>
     <ul class="lsmenus">
-        <li>
+        <li tapmode onclick="fnOpenFixedRecord()">
             <div class="lmico"><i class="iconfont icon-dingcunbao" style="color:#008FE3;"></i></div>
             <div class="lmcontent">定存记录</div>
             <div class="lmdis">我的定期存款</div>
@@ -190,6 +190,13 @@
           pageParam: {
               rType: rType
           }
+      });
+    }
+
+    function fnOpenFixedRecord(){
+      api.openWin({
+          name: 'fixedRecord',
+          url: './fixedRecord.html'
       });
 
     }

@@ -125,7 +125,7 @@
         var time = new Date().getTime();
         time = parseInt((time - d.getTime()) / 1000);
         var s;
-        if (time < 60 * 10) { //十分钟内
+        if (time>0&&time < 60 * 10) { //十分钟内
             return '刚刚';
         } else if ((time < 60 * 60) && (time >= 60 * 10)) {
             //超过十分钟少于1小时
