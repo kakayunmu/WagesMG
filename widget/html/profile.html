@@ -53,7 +53,7 @@
     <header id="header">
         <div class="headerfax">
             <div class="hf-left">我的</div>
-            <div class="hf-right">设置</div>
+            <div class="hf-right" tapmode onclick="fnOpenPfrofileInfo()">设置</div>
         </div>
     </header>
 </body>
@@ -98,7 +98,12 @@
                 duration: 500
             }
         });
-
+    }
+    function fnOpenPfrofileInfo(){
+      api.openWin({
+          name: 'profileinfo',
+          url: './profileinfo.html'
+      });
     }
 </script>
 

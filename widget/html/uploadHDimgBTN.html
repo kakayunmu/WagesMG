@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/iconfont.css" />
+    <style>
+        html,
+        body {
+            background: transparent;
+        }
+
+        .btns {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-blox-orient: horizontal;
+            -webkit-flex-flow: row;
+            background-color: rgba(0, 0, 0, .8);
+        }
+
+        .btns div {
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+            text-align: center;
+            color: #fff;
+            line-height: 50px;
+        }
+
+        .btns div:last-child {
+            border-right: 0px;
+        }
+
+        .btns div i {
+            font-size: 2.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="btns" id="btns">
+        <div tapmode onclick="fnCloseAlbum()"><i class="iconfont icon-quxiao"></i></div>
+        <div tapmode onclick="fnDoUploadImg()"><i class="iconfont icon-queren"></i></div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        var header = document.querySelector('#btns');
+        $api.fixStatusBar(header);
+    };
+
+    function fnCloseAlbum() {
+        api.execScript({
+            name: 'uploadHDImg',
+            script: 'fnCloseAlbum();'
+        });
+    }
+    function fnDoUploadImg(){
+      api.execScript({
+          name: 'uploadHDImg',
+          script: 'fnSaveImg();'
+      });
+    }
+</script>
+
+</html>
