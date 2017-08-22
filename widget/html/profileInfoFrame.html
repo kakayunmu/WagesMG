@@ -88,7 +88,7 @@
     <ul class="listbody" id="listbody">
 
     </ul>
-    <div class="btn">
+    <div class="btn" onclick="fnOutLogin()">
         退出登录
     </div>
     <script type="x-dot-template" id="dataTmp">
@@ -98,7 +98,7 @@
                 <img src="../image/100.png" id="hdimg">
             </div>
         </li>
-        <li class="more">
+        <li class="more" tapmode onclick="fnEditName('{{= it.name}}')">
             <div class="lil">姓名</div>
             <div class="lir">
                 {{= it.name}}
@@ -110,7 +110,7 @@
                 {{= it.idNumber}}
             </div>
         </li>
-        <li class="more">
+        <li class="more" tapmode onclick="fnEditMobile('{{= it.mobileNumber}}')">
             <div class="lil">手机号</div>
             <div class="lir">
                 {{= it.mobileNumber}}
@@ -169,8 +169,62 @@
                 hdimgurl: hdimgurl
             }
         });
-
     };
+
+    function fnEditName(name) {
+        api.openWin({
+            name: 'editName',
+            url: './editName.html',
+            pageParam: {
+                name: name
+            }
+        });
+    }
+
+    function fnEditMobile(mobile) {
+        api.openWin({
+            name: 'editMobile',
+            url: './editMobile.html',
+            pageParam: {
+                mobile: mobile
+            }
+        });
+    }
+
+    function fnOutLogin() {
+        $global.ajax({
+            url: VAR_HOST + '/API/Profile/OutLogin',
+            method: 'post',
+            cache: false
+        }, function(ret, err) {
+            if (ret && ret.status == 0) {
+                $api.rmStorage('accessToken');
+                $api.rmStorage('staff');
+                api.toast({
+                    msg: '退出登录成功',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+                setTimeout(function() {
+                    api.openWin({
+                        name: 'login',
+                        url: './login.html'
+                    });
+                    api.closeWin({
+                        name: 'mainmenu'
+                    });
+
+
+                }, 2000);
+            } else {
+                api.toast({
+                    msg: ret ? ret.msg : err.msg,
+                    duration: 2000,
+                    location: 'bottom'
+                });
+            }
+        });
+    }    
 </script>
 
 </html>

@@ -157,7 +157,7 @@
             <div class="lmcontent">安全中心</div>
             <div class="lmdis"></div>
         </li>
-        <li>
+        <li tapmode onclick="fnOpenClearCache()">
             <div class="lmico"><i class="iconfont icon-huancun" style="color:#FCB513;"></i></div>
             <div class="lmcontent">清除缓存</div>
             <div class="lmdis"></div>
@@ -231,6 +231,12 @@
             name: 'profileinfo',
             url: './profileinfo.html'
         });
+    }
+    function fnOpenClearCache(){
+      api.openWin({
+          name: 'clearCache',
+          url: './clearCache.html'
+      });
     }
 </script>
 

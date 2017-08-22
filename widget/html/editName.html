@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/iconfont.css" />
+    <style>
+        html,
+        body {
+            background-color: #E7E7E7;
+        }
+
+        header {
+            background-color: #F6F6F6;
+            height: 5rem;
+            border-bottom: 1px solid #C2C2C2;
+            color: #222;
+            padding: 0 15px;
+            /*overflow: hidden;*/
+        }
+
+        .headerfax {
+            position: relative;
+            font-size: 1.6rem;
+        }
+
+        .headerfax .hf-back {
+            position: relative;
+            float: left;
+            width: 3rem;
+        }
+
+        .headerfax .hf-back i {
+            font-size: 2rem;
+            line-height: 3rem;
+            margin: 1rem 0rem;
+            color: #177EE5;
+        }
+
+        .headerfax .hf-left {
+            line-height: 3rem;
+            margin: 1rem 0;
+            border-left: 1px solid #C2C2C2;
+            position: relative;
+            margin-left: 3rem;
+            padding-left: 1.5rem;
+        }
+
+        .input {
+            background: #fff;
+            height: 60px;
+            border-bottom: 1px solid #E5E5E5;
+            padding: 0px 15px;
+        }
+
+        .btn {
+            position: absolute;
+            text-align: center;
+            background: #177EE5;
+            border-radius: .2rem;
+            font-size: 1.4rem;
+            width: 6rem;
+            color: #fff;
+            right: 0px;
+            line-height: 3rem;
+            top: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="header">
+        <div class="headerfax">
+            <div class="hf-back" tapmode onclick="fnCloseWin()">
+                <i class="iconfont icon-fanhui"></i>
+            </div>
+            <div class="hf-left" id='headername'>修改姓名</div>
+            <div class="btn" tapmode onclick="fnSaveName()">保存</div>
+        </div>
+    </header>
+    <div class="input"></div>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/iconfont.js"></script>
+<script type="text/javascript" src="../script/config.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script type="text/javascript">
+    var header;
+    var UIInput;
+    apiready = function() {
+        header = document.querySelector('#header');
+        $api.fixStatusBar(header);
+        fnInitUIInput();
+    };
+
+    function fnInitUIInput() {
+        var offset = $api.offset(header);
+        UIInput = api.require('UIInput');
+        UIInput.open({
+            rect: {
+                x: 15,
+                y: offset.h + 20,
+                w: api.winWidth - 30,
+                h: 40
+            },
+            styles: {
+                bgColor: '#fff',
+                size: 16,
+                color: '#7F7F7F',
+                placeholder: {
+                    color: '#ccc'
+                }
+            },
+            autoFocus: true,
+            maxRows: 4,
+            placeholder: '请输入您的真实姓名',
+            keyboardType: 'default',
+            fixedOn: api.frameName
+        }, function(ret, err) {
+            $global.log(JSON.stringify(ret));
+        });
+
+        UIInput.value({
+            msg: api.pageParam.name
+        });
+    }
+
+    function fnCloseWin() {
+        api.closeWin();
+    }
+
+    function fnSaveName() {
+        UIInput.value(function(ret, err) {
+            $global.log(JSON.stringify(ret));
+            var staffName=ret.msg;
+            if(staffName&&staffName==""){
+              api.toast({
+                  msg: '姓名不能为空',
+                  duration: 2000,
+                  location: 'bottom'
+              });
+            }
+            if(staffName.length>15){
+              api.toast({
+                  msg: '姓名过长',
+                  duration: 2000,
+                  location: 'bottom'
+              });
+            }
+            $global.ajax({
+                url: VAR_HOST + '/API/Profile/ModifyStaffName',
+                method: 'post',
+                cache: false,
+                data: {
+                    values: {
+                        name: staffName,
+                    }
+                }
+            }, function(ret, err) {
+              if(ret&&ret.status==0){
+                api.execScript({
+                    name: 'profileinfo',
+                    frameName: 'profileinfoframe',
+                    script: 'fnLoadData();'
+                });
+                api.execScript({
+                    name: 'mainmenu',
+                    frameName: 'profileFrame',
+                    script: 'fnLoadData();'
+                });
+                api.closeWin();
+              }else{
+                api.toast({
+                    msg: ret ? ret.msg : err.msg,
+                    duration: 2000,
+                    location: 'bottom'
+                });
+              }
+            });
+        });
+
+    }
+</script>
+
+</html>
