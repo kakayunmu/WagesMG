@@ -152,7 +152,7 @@
         </li>
     </ul>
     <ul class="lsmenus">
-        <li>
+        <li tapmode onclick="fnOpenSafeSetting()">
             <div class="lmico"><i class="iconfont icon-jiaoyimima" style="color:#048BDD;"></i></div>
             <div class="lmcontent">安全中心</div>
             <div class="lmdis"></div>
@@ -237,6 +237,13 @@
           name: 'clearCache',
           url: './clearCache.html'
       });
+    }
+    function fnOpenSafeSetting(){
+      api.openWin({
+          name: 'safeSetting',
+          url: './safeSetting.html'
+      });
+
     }
 </script>
 

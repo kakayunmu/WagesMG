@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/iconfont.css" />
+    <style>
+        html,
+        body {
+            background-color: #E7E7E7;
+        }
+
+        header {
+            background-color: #F6F6F6;
+            height: 5rem;
+            border-bottom: 1px solid #C2C2C2;
+            color: #222;
+            padding: 0 15px;
+            /*overflow: hidden;*/
+        }
+
+        .headerfax {
+            position: relative;
+            font-size: 1.6rem;
+        }
+
+        .headerfax .hf-back {
+            position: relative;
+            float: left;
+            width: 3rem;
+        }
+
+        .headerfax .hf-back i {
+            font-size: 2rem;
+            line-height: 3rem;
+            margin: 1rem 0rem;
+            color: #177EE5;
+        }
+
+        .headerfax .hf-left {
+            line-height: 3rem;
+            margin: 1rem 0;
+            border-left: 1px solid #C2C2C2;
+            position: relative;
+            margin-left: 3rem;
+            padding-left: 1.5rem;
+        }
+
+        .input {
+            background: #fff;
+            height: 60px;
+            border-bottom: 1px solid #E5E5E5;
+            padding: 0px 15px;
+        }
+
+        .btn {
+            position: absolute;
+            text-align: center;
+            background: #177EE5;
+            border-radius: .2rem;
+            font-size: 1.4rem;
+            width: 6rem;
+            color: #fff;
+            right: 0px;
+            line-height: 3rem;
+            top: 0px;
+        }
+
+        .login-area {
+            padding: 0 15px;
+            background-color: #fff;
+            border-bottom: 1px solid #E5E5E5;
+        }
+
+        .login-area .lainput {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-blox-orient: horizontal;
+            -webkit-flex-flow: row;
+            flex-flow: row;
+            border-bottom: 1px solid #E5E5E5;
+            font-size: 1.6rem;
+            line-height: 5rem;
+        }
+
+        .login-area .lainput:last-child {
+            border-bottom: none;
+        }
+
+        .login-area .lainput .laTit {
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+        }
+
+        .login-area .lainput .laInp {
+            -webkit-box-flex: 3;
+            -webkit-flex: 3;
+            flex: 3;
+            padding-left: 1rem;
+            color: #7F7F7F;
+        }
+
+        .login-area .lainput .laInp input {
+            width: 100%;
+            color: #7f7f7f;
+            border: 0;
+            outline: none;
+        }
+
+        .login-area .lainput .laIco {
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+        }
+
+        .vcodebtn {
+            margin-top: 1rem;
+            background-color: #177EE5;
+            color: #fff;
+            border-radius: .2rem;
+            text-align: center;
+            line-height: 3rem;
+            font-size: 1.4rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="header">
+        <div class="headerfax">
+            <div class="hf-back" tapmode onclick="fnCloseWin()">
+                <i class="iconfont icon-fanhui"></i>
+            </div>
+            <div class="hf-left" id='headername'>设置支付宝账号</div>
+            <div class="btn" tapmode onclick="fnSaveAliAccount()">保存</div>
+        </div>
+    </header>
+    <div class="login-area" id="loginarea">
+        <div class="lainput">
+            <div class="laTit">手机号</div>
+            <div class="laInp" id="mobile"></div>
+            <div class="laIco"></div>
+        </div>
+        <div class="lainput">
+            <div class="laTit">账号</div>
+            <div class="laInp"><input type="text" id="alipayAccount" placeholder="请正确输入支付宝账号" /></div>
+            <div class="laIco"></div>
+        </div>
+        <div class="lainput">
+            <div class="laTit">验证码</div>
+            <div class="laInp"><input type="text" id="vcode" /></div>
+            <div class="laIco" style="-webkit-box-flex: 2;-webkit-flex: 2;flex: 2;">
+                <div class="vcodebtn" tapmode onclick="fnGetVCode()" id="vcodebtn">获取验证码</div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/iconfont.js"></script>
+<script type="text/javascript" src="../script/config.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        var header = document.querySelector('#header');
+        $api.fixStatusBar(header);
+        $api.html($api.byId('mobile'), api.pageParam.mobile);
+        if (api.pageParam.alipayAccount) {
+            $api.val($api.byId('alipayAccount'), api.pageParam.alipayAccount);
+        }
+
+    };
+
+    function fnCloseWin() {
+        api.closeWin();
+    }
+    //获取验证码
+    var time = 60;
+
+    function fnGetVCode() {
+        if (time != 60) {
+            return;
+        }
+        var mobileval = api.pageParam.mobile;
+        if ((/^1[34578]\d{9}$/.test(mobileval))) {
+            var vcodebtn = $api.byId('vcodebtn');
+            var timer = setInterval(function() {
+                if (time >= 0) {
+                    $api.html(vcodebtn, time + 's 后可重发');
+                    vcodebtn.style.color = "#6FD2F6"
+                    time = time - 1;
+                } else {
+                    time = 60;
+                    vcodebtn.style.color = "#fff"
+                    $api.html(vcodebtn, '获取验证码');
+                    clearInterval(timer);
+                }
+            }, 1000);
+
+            $global.ajax({
+                url: VAR_HOST + '/Api/Basics/SendLoginVcode',
+                method: 'post',
+                data: {
+                    values: {
+                        mobile: mobileval
+                    }
+                }
+            }, function(ret, err) {
+                if (ret) {
+                    api.toast({
+                        msg: ret.msg,
+                        duration: 2000,
+                        location: 'bottom'
+                    });
+                } else {
+                    api.toast({
+                        msg: err.msg,
+                        duration: 2000,
+                        location: 'bottom'
+                    });
+                }
+            }, true);
+
+        } else {
+            api.toast({
+                msg: '手机号码不正确',
+                duration: 2000,
+                location: 'bottom'
+            });
+        }
+    }
+
+    //保存新手机号
+    function fnSaveAliAccount() {
+        var vcode = $api.val($api.byId('vcode'));
+        var alipayAccount = $api.val($api.byId('alipayAccount'));
+        if (vcode == "") {
+            api.toast({
+                msg: '验证码不能为空',
+                duration: 2000,
+                location: 'bottom'
+            });
+            return;
+        }
+        if (alipayAccount == "") {
+            api.toast({
+                msg: '支付宝账号不能为空',
+                duration: 2000,
+                location: 'bottom'
+            });
+            return;
+        }
+        $global.ajax({
+            url: VAR_HOST + '/Api/Profile/ModifyStaffAlipayAccount',
+            method: 'post',
+            data: {
+                values: {
+                    alipayAccount: alipayAccount,
+                    vcode: vcode
+                }
+            }
+        }, function(ret, err) {
+            if (ret && ret.status == 0) {
+                api.execScript({
+                    name: 'safeSetting',
+                    script: 'fnLoadData();'
+                });
+                api.closeWin();
+            } else {
+                api.toast({
+                    msg: ret ? ret.msg : err.msg,
+                    duration: 2000,
+                    location: 'bottom'
+                });
+            }
+        });
+    }
+</script>
+
+</html>
