@@ -33,7 +33,17 @@
                 url: 'html/mainmenu.html'
             });
         }
+        fnInitJpush();//初始化极光推送
     };
+
+    function fnInitJpush() {
+        var ajpush = api.require("ajpush");
+        ajpush.init(function(ret) {
+            if (ret && ret.status){
+                $global.log("极光推送初始化成功");
+            }
+        });
+    }
 </script>
 
 </html>

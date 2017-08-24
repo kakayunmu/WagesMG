@@ -120,7 +120,7 @@
             <div class="lmcontent">支付宝</div>
             <div class="lmdis" id="alipayAccount">设置提现的支付宝账号</div>
         </li>
-        <li tapmode onclick="fnOpenRecord(4)">
+        <li tapmode onclick="fnOpenSetPayPwd()">
             <div class="lmico"><i class="iconfont icon-jiaoyimima1" style="color:#FCB513;"></i></div>
             <div class="lmcontent">支付密码</div>
             <div class="lmdis">设置提现、付款密码</div>
@@ -155,7 +155,7 @@
             cache: true
         }, function(ret, err) {
             if (ret && ret.status == 0) {
-                if (ret.staff.alipayAccount && ret.staff.alipayAccount != '') {                  
+                if (ret.staff.alipayAccount && ret.staff.alipayAccount != '') {
                     $api.html($api.byId('alipayAccount'), ret.staff.alipayAccount);
                 }
                 alipayAccount = ret.staff.alipayAccount;
@@ -177,6 +177,16 @@
                 mobile:mobile
             }
         });
+    }
+    function fnOpenSetPayPwd(){
+      api.openWin({
+          name: 'setPayPwd',
+          url: './setPayPwd.html',
+          pageParam: {
+            mobile:mobile
+          }
+      });
+
     }
 </script>
 

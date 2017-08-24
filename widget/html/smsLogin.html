@@ -193,7 +193,7 @@
                         location: 'bottom'
                     });
                 }
-            },true);
+            }, true);
 
         } else {
             api.toast({
@@ -232,18 +232,18 @@
                             name: 'mainmenu',
                             url: './mainmenu.html'
                         });
-
+                        fnBindAliasAndTags(ret.staff.id);
                         api.toast({
                             msg: '登录成功',
                             duration: 2000,
                             location: 'bottom'
                         });
-                        setTimeout(function(){
-                          api.closeWin({
-                              name: 'login'
-                          });
-                          api.closeWin();
-                        },1000);
+                        setTimeout(function() {
+                            api.closeWin({
+                                name: 'login'
+                            });
+                            api.closeWin();
+                        }, 1000);
                     } else {
                         api.toast({
                             msg: ret.msg,
@@ -258,7 +258,7 @@
                         location: 'bottom'
                     });
                 }
-            },true);
+            }, true);
 
         } else {
             api.toast({
@@ -268,6 +268,19 @@
             });
 
         }
+    }
+
+    function fnBindAliasAndTags(staffId) {
+        var ajpush = api.require('ajpush');
+        var param = {
+            alias: staffId.replace(/-/g, '_'),
+            tags: []
+        };
+        ajpush.bindAliasAndTags(param, function(ret) {
+            if (ret) {
+                $global.log('ajpush bindAliasAndTags: ' + JSON.stringify(ret));
+            }
+        });
     }
 </script>
 

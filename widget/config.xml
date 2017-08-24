@@ -58,5 +58,9 @@
 
     <permission name="hardware"/>
     <preference name="customRefreshHeader" value="UIPullRefreshFlash"/>
-
+    
+    <feature name="ajpush">
+        <param name="app_key" value="2f4138ca7f40aa231729757a" />
+        <param name="channel" value="no-channel" />
+    </feature>
 </widget>
