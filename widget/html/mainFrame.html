@@ -52,7 +52,7 @@
         .mainlist .ls1 .lstop {
             font-size: 1.2rem;
             padding: 1.5rem;
-            padding-left: 3.2rem;
+            padding-left: 3.8rem;
             position: relative;
             color: #A4A4A4;
         }
@@ -108,7 +108,7 @@
         .mainlist .ls2 .lstop {
             font-size: 1.2rem;
             padding: 1.5rem;
-            padding-left: 3.2rem;
+            padding-left: 3.8rem;
             position: relative;
             color: #A4A4A4;
         }
@@ -203,14 +203,14 @@
         .mainlist .ls4 .lstop {
             font-size: 1.2rem;
             padding: 1.5rem;
-            padding-left: 3.2rem;
+            padding-left: 3.8rem;
             position: relative;
             color: #A4A4A4;
         }
 
         .mainlist .ls4 .lstop i {
             font-size: 2.5rem;
-            color: #96DEAB;
+            color: #FCB513;
             left: 0.5rem;
             position: absolute;
             top: 1.8rem;
@@ -241,7 +241,7 @@
         .mainlist .ls5 .lstop {
             font-size: 1.2rem;
             padding: 1.5rem;
-            padding-left: 3.2rem;
+            padding-left: 3.8rem;
             position: relative;
             color: #A4A4A4;
         }
@@ -406,6 +406,20 @@
         <div class="ls5-body">
             <div class="ls5-body-main">-300</div>
             <div class="ls5-body-dis">转账支出</div>
+        </div>
+    </div>
+    {{?? value.mType==4}}
+    <div class="ls4">
+        <div class="lstop">
+            <i class="iconfont icon-tixian"></i>
+            <div>
+                <div>提现</div>
+                <div class="lstime">{{= $global.niceDate(value.createTime,'yyyy/MM/dd hh:mm')}}</div>
+            </div>
+        </div>
+        <div class="ls4-body">
+            <div class="ls4-body-main">{{= $global.formatNumber(value.amount,'#,##0.00')}}</div>
+            <div class="ls4-body-dis">{{= value.remarks}}</div>
         </div>
     </div>
     {{?? value.mType==7}}

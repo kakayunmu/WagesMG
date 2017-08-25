@@ -77,7 +77,7 @@
                 <div><i class="iconfont icon-cunzhezhuanzhang"></i> </div>
                 <div class="tip">转 存</div>
             </div>
-            <div class="tmenu">
+            <div class="tmenu" tapmod onclick="fnOpenWithdrawalsApply()">
                 <div><i class="iconfont icon-tixian"></i></div>
                 <div class="tip">提 现</div>
             </div>
@@ -186,9 +186,13 @@
                 alert(JSON.stringify(err));
             }
         });
-
-
     };
+	function fnOpenWithdrawalsApply(){
+		api.openWin({
+			name:"withdrawalsApply",
+			url:"./withdrawalsApply.html"
+		});
+	}
 </script>
 
 </html>

@@ -1,0 +1,208 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/iconfont.css" />
+    <style>
+        html,
+        body {
+            background-color: rgba(0, 0, 0, 0);
+        }
+
+        .list {
+            padding: .5rem 15px;
+            font-size: 1.6rem;
+            background: #fff;
+            border-bottom: 1px solid #E5E5E5;
+            border-top: 1px solid #E5E5E5;
+        }
+
+            .list .lrow {
+                border-bottom: 1px solid #E5E5E5;
+                padding: .5rem;
+                display: -webkit-box;
+                display: -webkit-flex;
+                display: flex;
+                -webkit-blox-orient: horizontal;
+                -webkit-flex-flow: row;
+            }
+
+                .list .lrow:last-child {
+                    border-bottom: none;
+                }
+
+                .list .lrow .left {
+                    -webkit-box-flex: 3;
+                    -webkit-flex: 3;
+                    flex: 3;
+                }
+
+                    .list .lrow .left .lmico {
+                        width: 4rem;
+                    }
+
+                        .list .lrow .left .lmico i {
+                            font-size: 4rem;
+                            float: left;
+                        }
+
+                    .list .lrow .left .lcontent {
+                        margin-left: 5rem;
+                    }
+
+                    .list .lrow .left .ltime {
+                        font-size: 1.4rem;
+                        color: #ccc;
+                    }
+
+                .list .lrow .right {
+                    -webkit-box-flex: 1;
+                    -webkit-flex: 1;
+                    flex: 1;
+                    font-size: 1.8rem;
+                    text-align: right;
+                }
+                #nomore{
+                  text-align: center;
+                  padding: 1rem;
+                  font-size: 1.4rem;
+                  color: #ccc;
+                }
+    </style>
+</head>
+
+<body>
+    <ul class="list" id="listmain"></ul>
+    <div id="nomore"></div>
+    <script type="text/javascript" src="../script/api.js"></script>
+    <script type="text/javascript" src="../script/config.js"></script>
+    <script type="text/javascript" src="../script/global.js"></script>
+    <script type="text/javascript" src="../script/doT.min.js"></script>
+    <script type="x-dot-template" id="recordTmp">
+        {{~ it:value:index}}
+        <li class="lrow">
+            <div class="left">
+                <div class="lmico"><i class="iconfont icon-tixian" style="color:#FCB513;"></i></div>
+                <div class="lcontent">
+                    <div>{{= $global.niceDate(value.applyTime,'yy/MM/dd hh:mm')}} 提现</div>
+                    <div class="ltime">状态：{{= fnFormaterPayState(value.payState)}} {{= value.remark==null?"":value.remark}}</div>
+                </div>
+
+            </div>
+            <div class="right">{{= $global.formatNumber(value.amount,'#，##0.00')}}</div>
+        </li>
+        {{~}}
+    </script>
+    <script type="text/javascript">
+        apiready = function () {
+            fnLoadData();
+            fnLoadMore();
+            api.setCustomRefreshHeaderInfo({
+                bgColor: '#f5f5f5',
+                isScale: true,
+                loadAnimInterval: 100,
+                image: {
+                    pull: [
+                        'widget://image/loading/pull2/1.png',
+                        'widget://image/loading/pull2/2.png',
+                        'widget://image/loading/pull2/3.png',
+                        'widget://image/loading/pull2/4.png',
+                        'widget://image/loading/pull2/5.png',
+                        'widget://image/loading/pull2/6.png'
+                    ],
+                    load: [
+                        'widget://image/loading/pull2/1.png',
+                        'widget://image/loading/pull2/2.png',
+                        'widget://image/loading/pull2/3.png',
+                        'widget://image/loading/pull2/4.png',
+                        'widget://image/loading/pull2/5.png',
+                        'widget://image/loading/pull2/6.png'
+                    ]
+                }
+            }, function () {
+                fnFlashData();
+            });
+        };
+
+        function fnFormaterPayState(ps){
+          switch (ps) {
+            case 2:
+              return "已到账";
+              case  3:
+                return "审核未通过";
+            default:
+              return "等待到账中";
+          }
+        }
+
+        function fnFlashData() {
+            pageIndex = 1;
+            noMore = false;
+            fnLoadData();
+        }
+        var pageIndex = 1;
+        var noMore = false;
+        function fnLoadData() {
+            $global.ajax({
+                url: VAR_HOST + '/Api/Profile/GetWithdrawalsApplys?pageIndex=' + pageIndex + '&pageSize=10',
+                method: 'get',
+                cache: true
+            }, function (ret, err) {
+              var listmain = $api.byId("listmain");
+              var nomarea=$api.byId('nomore');
+              $global.log(JSON.stringify(ret));
+                if (ret && ret.status == 0) {
+                    if (ret.data.length > 0) {
+                        var tmp = doT.template($api.html($api.byId('recordTmp')));
+
+                        if (pageIndex == 1) {
+                            $api.html(listmain, tmp(ret.data));
+                        } else {
+                            $api.append(listmain, tmp(ret.data));
+                        }
+                    }
+                    if ( ret.data.length < 10) {
+                        $global.log('已没有更多了');
+                        noMore = true;
+                        $api.html(nomarea, ret.data.length==0?'暂无数据':'没有更多了');
+                        if(pageIndex==1&& ret.data.length==0){
+                          listmain.style.display='none';
+                        }
+                    } else {
+                        pageIndex += 1;
+                    }
+                } else {
+                    $api.toast({
+                        msg: ret ? ret.msg : err.msg,
+                        duration: 2000,
+                        location: 'bottom'
+                    });
+                }
+                api.refreshHeaderLoadDone();
+            });
+        }
+
+        function fnLoadMore() {
+            api.addEventListener({
+                name: 'scrolltobottom',
+                extra: {
+                    threshold: 10
+                }
+            }, function (ret, err) {
+                if (noMore) {
+                    api.toast({
+                        msg: '没有更多了',
+                        duration: 2000,
+                        location: 'bottom'
+                    });
+                } else {
+                    fnLoadData();
+                }
+            });
+        }
+    </script>
+</body>
+</html>

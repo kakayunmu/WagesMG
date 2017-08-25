@@ -1,10 +1,10 @@
 
 @font-face {font-family: "iconfont";
-  src: url('iconfont.eot?t=1503451891705'); /* IE9*/
-  src: url('iconfont.eot?t=1503451891705#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('iconfont.woff?t=1503451891705') format('woff'), /* chrome, firefox */
-  url('iconfont.ttf?t=1503451891705') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-  url('iconfont.svg?t=1503451891705#iconfont') format('svg'); /* iOS 4.1- */
+  src: url('iconfont.eot?t=1503582250049'); /* IE9*/
+  src: url('iconfont.eot?t=1503582250049#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('iconfont.woff?t=1503582250049') format('woff'), /* chrome, firefox */
+  url('iconfont.ttf?t=1503582250049') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('iconfont.svg?t=1503582250049#iconfont') format('svg'); /* iOS 4.1- */
 }
 
 .iconfont {
@@ -48,6 +48,8 @@
 .icon-gongzi:before { content: "\e60c"; }
 
 .icon-quxiao:before { content: "\e60a"; }
+
+.icon-tishi:before { content: "\e67c"; }
 
 .icon-shouqian:before { content: "\e745"; }
 

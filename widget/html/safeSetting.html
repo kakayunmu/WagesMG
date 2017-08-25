@@ -125,7 +125,7 @@
             <div class="lmcontent">支付密码</div>
             <div class="lmdis">设置提现、付款密码</div>
         </li>
-        <li tapmode onclick="fnOpenRecord(6)">
+        <li tapmode onclick="fuOpenSetStaffPwd()">
             <div class="lmico"><i class="iconfont icon-mima_fuzhi" style="color:#F85854;"></i></div>
             <div class="lmcontent">登录密码</div>
             <div class="lmdis">设置账号登录密码</div>
@@ -185,6 +185,14 @@
           pageParam: {
             mobile:mobile
           }
+      });
+
+    }
+
+    function fuOpenSetStaffPwd(){
+      api.openWin({
+          name: 'setStaffPwd',
+          url: './setStaffPwd.html'
       });
 
     }

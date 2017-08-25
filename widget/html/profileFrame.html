@@ -135,7 +135,7 @@
             <div class="lmcontent">工资记录</div>
             <div class="lmdis"></div>
         </li>
-        <li tapmode onclick="fnOpenRecord(4)">
+        <li tapmode onclick="fnOpenWithdrawalsApplyRecord()">
             <div class="lmico"><i class="iconfont icon-tixian" style="color:#FCB513;"></i></div>
             <div class="lmcontent">提现记录</div>
             <div class="lmdis">本月提现明细</div>
@@ -225,6 +225,12 @@
         });
 
     }
+	function fnOpenWithdrawalsApplyRecord(){
+		api.openWin({
+			name:'withdrawalsApplyRecord',
+			url:'./withdrawalsApplyRecord.html'
+		});
+	}
 
     function fnOpenProfileInfo() {
         api.openWin({
