@@ -234,7 +234,7 @@
                 $api.html($api.byId('fpName'), ret.fixedProduct.name);
                 $api.html($api.byId('fpRate'), $global.formatNumber(ret.fixedProduct.aiRate, '#,##0.00'));
                 $api.html($api.byId('fpLimit'), ret.fixedProduct.timeLimitUnit == 0 ? ret.fixedProduct.timeLimit + '天' : ret.fixedProduct.timeLimit + '个月');
-                $api.html($api.byId('yue'), ret.currentAmount);
+                $api.html($api.byId('yue'),$global.formatNumber(ret.currentAmount,'#,##0.00'));
             } else {
                 $api.attr($api.byId('amount'), 'readonly', 'readonly');
                 api.toast({
