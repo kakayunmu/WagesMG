@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/iconfont.css" />
+    <style>
+        html,
+        body {
+            background-color: transparent;
+        }
+
+        header {
+            background-color: #393A3F;
+            height: 5rem;
+            color: #fff;
+            padding: 0 15px;
+            /*background-color: rgba(0,0,0,0.5);*/
+        }
+
+        .headerfax {
+            position: relative;
+            font-size: 1.6rem;
+        }
+
+        .headerfax .hf-back {
+            position: relative;
+            float: left;
+            width: 3rem;
+        }
+
+        .headerfax .hf-back i {
+            font-size: 2rem;
+            line-height: 3rem;
+            margin: 1rem 0rem;
+            color: #fff;
+        }
+
+        .headerfax .hf-left {
+            line-height: 3rem;
+            margin: 1rem 0;
+            border-left: 1px solid #2E2F34;
+            position: relative;
+            margin-left: 3rem;
+            padding-left: 1.5rem;
+        }
+
+        .scanSquare {
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-flex-flow: column;
+            flex-flow: column;
+        }
+
+        .scanSquare .btm {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .scanSquare>div {
+            position: relative;
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+        }
+
+        .scanSquare>div.sqrow {
+            -webkit-box-flex: 2;
+            -webkit-flex: 2;
+            flex: 2;
+        }
+
+        .scanSquare>div.sqrow .cleft {
+            position: relative;
+            float: left;
+            height: 100%;
+        }
+
+        .scanSquare>div.sqrow .cright {
+            position: relative;
+            float: right;
+            height: 100%;
+        }
+
+        .lt {
+            position: absolute;
+            border: solid #fff;
+            border-width: .3rem 0 0 .3rem;
+            top: 0px;
+            right: -2rem;
+            width: 2rem;
+            height: 2rem;
+        }
+
+        .lb {
+            position: absolute;
+            border: solid #fff;
+            border-width: 0 0 .3rem .3rem;
+            bottom: 0px;
+            right: -2rem;
+            width: 2rem;
+            height: 2rem;
+        }
+        .rt {
+            position: absolute;
+            border: solid #fff;
+            border-width: .3rem .3rem 0 0 ;
+            top: 0px;
+            left:-2rem;
+            width: 2rem;
+            height: 2rem;
+        }
+
+        .rb {
+            position: absolute;
+            border: solid #fff;
+            border-width: 0 .3rem .3rem 0;
+            bottom: 0px;
+            left: -2rem;
+            width: 2rem;
+            height: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="header">
+        <div class="headerfax">
+            <div class="hf-back" tapmode onclick="fnCloseScan()">
+                <i class="iconfont icon-fanhui"></i>
+            </div>
+            <div class="hf-left" id='headername'>二维码/条码</div>
+        </div>
+    </header>
+    <div class="scanSquare" id="scanSquare">
+        <div class="row btm"></div>
+        <div class="row sqrow" id="sqrow">
+            <div class="cleft btm" id="cleft">
+                <div class="lt"></div>
+                <div class="lb"></div>
+            </div>
+            <div class="cright btm" id="cright">
+              <div class="rt"></div>
+              <div class="rb"></div>
+            </div>
+        </div>
+        <div class="row btm"></div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/iconfont.js"></script>
+<script type="text/javascript" src="../script/config.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        var header = document.querySelector('#header');
+        $api.fixStatusBar(header);
+        $api.css($api.byId('scanSquare'), 'top:' + $api.offset(header).h + 'px;');
+        var sqOffset = $api.offset($api.byId('sqrow'));
+        $global.log((api.winWidth - sqOffset.h) / 2);
+        $api.css($api.byId('cleft'), 'width:' + (api.winWidth - sqOffset.h) / 2 + 'px;');
+        $api.css($api.byId('cright'), 'width:' + (api.winWidth - sqOffset.h) / 2 + 'px;');
+    };
+    function fnCloseScan() {
+      api.sendEvent({
+          name: 'CloseScan'
+      });    
+    }
+</script>
+
+</html>

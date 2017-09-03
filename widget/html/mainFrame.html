@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
@@ -99,6 +98,14 @@
             padding-right: 1.5rem;
         }
 
+        .mainlist .ls1 .ls1footer {
+            background-color: #f9f9f9;
+            text-align: center;
+            font-size: 1.2rem;
+            color: #A4A4A4;
+            padding: .5rem;
+        }
+
         .mainlist .ls2 {
             background: #fff;
             position: relative;
@@ -174,6 +181,10 @@
             border-radius: .3rem;
             display: inline-block;
             padding: .5rem 1.5rem;
+        }
+
+        .mainlist .ls2 .ls2-body .ls2-right .ls2-right-btn:active {
+            background-color: #116AC3;
         }
 
         .mainlist .ls2 .ls2footer {
@@ -354,27 +365,30 @@
                 <div class="ls2-right-btn" tapmode onclick='openDumpFixedWin("{{= it.id}}")'>马上转存</div>
             </div>
         </div>
-        <div class="ls2footer">
+        <div class="ls2footer" tapmode onclick='fnOpenMoreProduct()'>
             查看更多
         </div>
     </div>
 </script>
 <script type="text/x-dot-template" id="cdtmp">
-    {{~ it:value:index}} {{? value.mType==6}}
-    <div class="ls1">
+    {{~ it:value:index}} {{? value.mType==6}} {{ var jsonObj=prossJsonObj(value.jsonObj);}}
+    <div class="ls1" tapmode onclick="fuOpenFixedInfo('{{= jsonObj.Id}}')">
         <div class="lstop">
             <i class="iconfont icon-shouqian"></i>
             <div>
-                <div>收益记录</div>
-                <div class="lstime">07-01 11:23</div>
+                <div>定存收益</div>
+                <div class="lstime">{{= $global.niceDate(value.createTime,'yyyy/MM/dd hh:mm')}}</div>
             </div>
         </div>
         <div class="ls1-body">
-            <div class="ls1-left">本月收益 <span style="font-size:2rem;">￥200</span></div>
+            <div class="ls1-left">[{{= jsonObj.Name}}] 到期</div>
             <div class="ls1-right">
-                <div>总金额：10,234.00</div>
-                <div>累计收益：435.23</div>
+                <div>本金：{{= $global.formatNumber(jsonObj.Amount,'#,##0.00')}}</div>
+                <div>收益：{{= $global.formatNumber(jsonObj.CumulativeAmount,'#,##0.00')}}</div>
             </div>
+        </div>
+        <div class="ls1footer">
+            查看明细
         </div>
     </div>
     {{?? value.mType==8}}
@@ -400,12 +414,12 @@
             <i class="iconfont icon-71"></i>
             <div>
                 <div>转账记录</div>
-                <div class="lstime">07-01 11:23</div>
+                <div class="lstime">{{= $global.niceDate(value.createTime,'yyyy/MM/dd hh:mm')}}</div>
             </div>
         </div>
         <div class="ls5-body">
-            <div class="ls5-body-main">-300</div>
-            <div class="ls5-body-dis">转账支出</div>
+            <div class="ls5-body-main">{{= $global.formatNumber(value.amount,'#,##0.00')}}</div>
+            <div class="ls5-body-dis">{{= value.remarks}}</div>
         </div>
     </div>
     {{?? value.mType==4}}
@@ -496,7 +510,7 @@
     };
 
     function fnFlashData() {
-		cdPageIndex = 1;
+        cdPageIndex = 1;
         noMore = false;
         fnLoadEdu();
     }
@@ -570,7 +584,6 @@
                 var area2 = $api.byId('area2');
                 if (ret.currentDeposits.length > 0) { //如果还有下一页
                     var tmp = doT.template($api.html($api.byId('cdtmp')));
-
                     if (cdPageIndex == 1) {
                         $api.html(area2, tmp(ret.currentDeposits));
                     } else {
@@ -617,6 +630,28 @@
                 proId: proId
             }
         });
+    }
+
+    function prossJsonObj(jstr) {
+        $global.log(jstr);
+        return JSON.parse(jstr);
+    }
+
+    function fuOpenFixedInfo(fdId) {
+        api.openWin({
+            name: 'fixedRecordInfo',
+            url: './fixedRecordInfo.html',
+            pageParam: {
+                fdId: fdId
+            }
+        });
+    }
+    function fnOpenMoreProduct(){
+      api.execScript({
+          frameName: 'main',
+          script: 'fnOpenProducts();'
+      });
+
     }
 </script>
 

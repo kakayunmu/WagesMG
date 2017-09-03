@@ -57,6 +57,22 @@
             text-align: right;
             color: #1e1e1e;
         }
+
+        .btn {
+            width: 50%;
+            margin: 1rem auto;
+            padding: 1rem 2rem;
+            background-color: #177EE5;
+            text-align: center;
+            border-radius: .5rem;
+            font-size: 1.6rem;
+            color: #fff;
+            display: none;
+        }
+
+        .btn:active {
+            background-color: #116AC3;
+        }
     </style>
 </head>
 
@@ -64,6 +80,9 @@
     <ul class="listbody" id="listbody">
 
     </ul>
+    <div class="btn" id="btn" onclick="fnOpenFixedToCurrent()">
+        定存转活期
+    </div>
     <script type="x-dot-template" id="recordTmp">
         <li>
             <div class="left">
@@ -153,6 +172,17 @@
                 {{= $global.formatNumber(it.cumulativeAmount,'#,##0.00')}}
             </div>
         </li>
+        <li>
+            <div class="left">
+                <div class="ico">
+                    <i class="iconfont icon-beizhu"></i>
+                </div>
+                <div class="columname">备注</div>
+            </div>
+            <div class="right">
+                {{= it.remarks!=null?it.remarks:'&nbsp;'}}
+            </div>
+        </li>
     </script>
 </body>
 <script type="text/javascript" src="../script/api.js"></script>
@@ -176,6 +206,9 @@
             if (ret && ret.status == 0) {
                 var tmp = doT.template($api.html($api.byId('recordTmp')));
                 $api.html(listbody, tmp(ret.data));
+                if (ret.data.dataState == 0) {
+                    $api.byId('btn').style.display = 'block';
+                }
             } else {
                 $api.toast({
                     msg: ret ? ret.msg : err.msg,
@@ -184,6 +217,50 @@
                 });
             }
             api.refreshHeaderLoadDone();
+        });
+    }
+
+    function fnOpenFixedToCurrent() {
+        api.confirm({
+            title: '提示',
+            msg: '转活期后本此定存将按照今天的活期年化利率重新计算您的收益，历史累计收益将清零，您确定要转活期吗？',
+            buttons: ['确定', '取消']
+        }, function(ret, err) {
+            $global.log(JSON.stringify(ret));
+            if (ret && ret.buttonIndex == 1) {
+                api.showProgress({
+                    style: 'default',
+                    animationType: 'fade',
+                    title: '正在处理中...',
+                    modal: true
+                });
+                $global.ajax({
+                    url: VAR_HOST + '/Api/Main/FixedToCurrent',
+                    method: 'post',
+                    cache: false,
+                    data: {
+                        values: {
+                            fdId: api.pageParam.fdId
+                        }
+                    }
+                }, function(ret, err) {
+                    $global.log(JSON.stringify(ret));
+                    api.hideProgress();
+                    if (ret && ret.status == 0) {
+                        fnLoadData();
+                        api.execScript({
+                            name: 'fixedRecord',
+                            frameName: 'fixedRecordFrame',
+                            script: 'fnFlashData();'
+                        });
+                        api.execScript({
+                            name: 'mainmenu',
+                            frameName: 'mainFrame',
+                            script: 'fnFlashData();'
+                        });
+                    }
+                });
+            }
         });
     }
 </script>

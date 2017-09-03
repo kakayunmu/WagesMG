@@ -21,6 +21,7 @@
         fnMainMenu();
         fnOpenMain();
         fnCloseWidget();
+        fnScanListener();
     };
 
     var preSelectIndex = 0;
@@ -193,20 +194,24 @@
         api.addEventListener({
             name: 'keyback'
         }, function(ret, err) {
-            if (closeflg == 0) {
-                closeflg = 1;
-                api.toast({
-                    msg: '再按一次退出应用',
-                    duration: 2000,
-                    location: 'bottom'
-                });
-                setTimeout(function() {
-                    closeflg = 0;
-                }, 1000);
+            if (IsScanOpen) {
+                fnDoCloseScan();
             } else {
-                api.closeWidget({
-                    silent: true
-                });
+                if (closeflg == 0) {
+                    closeflg = 1;
+                    api.toast({
+                        msg: '再按一次退出应用',
+                        duration: 2000,
+                        location: 'bottom'
+                    });
+                    setTimeout(function() {
+                        closeflg = 0;
+                    }, 1000);
+                } else {
+                    api.closeWidget({
+                        silent: true
+                    });
+                }
             }
         });
     }
@@ -224,6 +229,35 @@
             index: 1
         });
         fnOpenProducts();
+    }
+
+    var IsScanOpen = false;
+
+    function fnScanListener() {
+        api.addEventListener({
+            name: 'OpenScan'
+        }, function(ret, err) {
+            IsScanOpen = true;
+        });
+        api.addEventListener({
+            name: 'CloseScan'
+        }, function(ret, err) {
+            IsScanOpen = false;
+            fnDoCloseScan();
+        });
+    }
+
+    function fnDoCloseScan() {
+        api.execScript({
+            frameName: 'main',
+            script: 'fnCloseFNScanner();'
+        });
+        api.closeFrame({
+            name: 'scanFrame'
+        });
+        api.closeFrame({
+            name: 'scanBtnFrame'
+        });
     }
 </script>
 

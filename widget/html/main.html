@@ -69,9 +69,9 @@
                 <div><i class="iconfont icon-saoyisaojianjiban"></i></div>
                 <div class="tip">扫一扫</div>
             </div>
-            <div class="tmenu">
+            <div class="tmenu" tapmode onclick="fnOpenReceivables()">
                 <div><i class="iconfont icon-fukuan"></i></div>
-                <div class="tip">付 款</div>
+                <div class="tip">收 款</div>
             </div>
             <div class="tmenu" tapmod onclick="fnOpenProducts()">
                 <div><i class="iconfont icon-cunzhezhuanzhang"></i> </div>
@@ -85,6 +85,8 @@
     </div>
 </body>
 <script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/config.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
 <script type="text/javascript">
     apiready = function() {
         fnOpenMainFrame();
@@ -171,28 +173,105 @@
         });
 
     }
+    var FNScanner;
 
-
-
-    function fnScan() {    
-        var FNScanner = api.require('FNScanner');
-        FNScanner.openScanner({
+    function fnScan() {
+        api.sendEvent({
+            name: 'OpenScan'
+        });
+        api.openFrame({
+            name: 'scanFrame',
+            url: './scanFrame.html',
+            rect: {
+                x: 0,
+                y: 0,
+                w: 'auto',
+                h: 'auto'
+            },
+            bounces: false,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: false
+        });
+        FNScanner = api.require('FNScanner');
+        FNScanner.openView({
             autorotation: true,
-
+            fixedOn: 'scanFrame',
+            fixed: true,
+            autorotation: false,
+            rect: {
+                x: 0,
+                y: 0,
+                w: 'auto',
+                h: 'auto'
+            },
         }, function(ret, err) {
             if (ret) {
-                alert(JSON.stringify(ret));
+                if (ret.eventType == 'success') {
+                    api.sendEvent({
+                        name: 'CloseScan'
+                    });
+                    //打开输入金额
+                    $global.log(ret.content);
+                    var content = JSON.parse(ret.content);
+                    $global.log('QR Data：'+content.data);
+                    api.openWin({
+                        name: 'inputMoney',
+                        url: './inputMoney.html',
+                        pageParam: {
+                            staffId: content.data
+                        }
+                    });
+                }
             } else {
-                alert(JSON.stringify(err));
+                api.toast({
+                    msg: err.msg,
+                    duration: 2000,
+                    location: 'bottom'
+                });
+
             }
         });
+        api.openFrame({
+            name: 'scanBtnFrame',
+            url: './scanBtnFrame.html',
+            rect: {
+                x: 0,
+                y: 0,
+                w: 'auto',
+                h: 'auto'
+            },
+            bounces: false,
+            bgColor: 'transparent',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: false
+        });
     };
-	function fnOpenWithdrawalsApply(){
-		api.openWin({
-			name:"withdrawalsApply",
-			url:"./withdrawalsApply.html"
-		});
-	}
+
+    function fnCloseFNScanner() {
+        FNScanner.closeView();
+    }
+
+    function fnOpenWithdrawalsApply() {
+        api.openWin({
+            name: "withdrawalsApply",
+            url: "./withdrawalsApply.html"
+        });
+    }
+
+    function fnOpenReceivables() {
+        api.openWin({
+            name: 'receivables',
+            url: './receivables.html',
+            animation: {
+                type: "none"
+            },
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: false,
+            bgColor: 'rgba(0,0,0,0.3)'
+        });
+
+    }
 </script>
 
 </html>

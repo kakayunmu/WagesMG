@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        html,
+        body {
+            background-color: transparent;
+        }
+
+        .rqcode {
+            position: absolute;
+            margin: 0px 15px;
+            background: #fff;
+            box-sizing: border-box;
+            border-radius: 5px;
+        }
+
+        .rqcode #rqMain {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            padding: 3rem;
+            display: none;
+        }
+
+        .rqcode #rqMsg {
+            text-align: center;
+            font-size: 1.4rem;
+            color: #A4A4A4;
+            margin-top: 15rem;
+        }
+
+        .rqcode img {
+            width: 100%;
+            height: 100%;
+            border-radius: 5px;
+        }
+
+        .rqcode .qrTitle {
+            position: absolute;
+            width: 80%;
+            top: .8rem;
+            text-align: center;
+            font-size: 1.4rem;
+        }
+
+        .rqcode .qrhimg {
+            position: absolute;
+            width: 20%;
+            height: 20%;
+            top: 40%;
+            left: 40%;
+            padding: 4px;
+            background: #fff;
+            border-radius: 5px;
+        }
+
+        .rqcode .qrhimg #headimg {
+            width: 100%;
+            height: 100%;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="rqcode" id="rqcode">
+        <div id="rqMain">
+            <div class="qrTitle">扫码向我付款</div>
+            <img id="qrCode" src="" />
+            <div class="qrhimg"><img id="headimg" src="" /></div>
+        </div>
+        <div id="rqMsg">
+            加载中...
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/config.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        $api.css($api.byId('rqcode'), 'height:' + (api.winWidth - 30) + 'px;top:' + (api.winHeight - api.winWidth + 50) / 2 + 'px;width:' + (api.winWidth - 30) + 'px;');
+        fnLoadData();
+    };
+
+    function fnLoadData() {
+        $global.ajax({
+            url: VAR_HOST + '/API/Profile/GetStaffQR',
+            method: 'get',
+            cache: true
+        }, function(ret, err) {
+          $global.log(JSON.stringify(ret));
+            if (ret && ret.status == 0) {
+                api.imageCache({
+                    url: VAR_HOST + '/' + ret.qrurl
+                }, function(ret, err) {
+                    if (ret) {
+                        var qrCode = $api.byId('qrCode');
+                        $api.attr(qrCode, 'src', ret.url);
+                    }
+                });
+                api.imageCache({
+                    url: VAR_HOST + '/' + ret.headImg
+                }, function(ret, err) {
+                    if (ret) {
+                        var headImg = $api.byId('headimg');
+                        $api.attr(headImg, 'src', ret.url);
+                    }
+                });
+                $api.css($api.byId('rqMain'), 'display:block;width:100%;height:100%');
+                $api.css($api.byId('rqMsg'), 'display:none;');
+            } else {
+                $api.html($api.byId('rqMsg'), '加载失败/(ㄒoㄒ)/~~');
+            }
+        });
+    }
+</script>
+
+</html>
